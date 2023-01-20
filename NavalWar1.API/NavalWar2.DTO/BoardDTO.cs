@@ -232,7 +232,7 @@ namespace NavalWar.DTO
                 {
                     stringBoard += getCell(row, column).ToString();
                 }
-                stringBoard+= "";
+                stringBoard+= "\n";
             }
             return stringBoard;
 

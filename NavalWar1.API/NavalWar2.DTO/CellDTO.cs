@@ -61,7 +61,7 @@
         {
             if (!isVisited)
             {
-                return "";
+                return "O";
             }
             else return "X";
         }

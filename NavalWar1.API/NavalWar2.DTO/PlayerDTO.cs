@@ -8,6 +8,7 @@ namespace NavalWar.DTO
 {
     public class PlayerDTO
     {
+        public int Id { get; set; }
         public string Pseudo { get; set; }
 
         public int Score { get; set; }
