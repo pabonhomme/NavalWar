@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavalWar.API", "NavalWar1.API\NavalWar.API.csproj", "{2BA5A511-772F-4D63-B952-0D12898B15F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NavalWar.API", "NavalWar1.API\NavalWar.API.csproj", "{2BA5A511-772F-4D63-B952-0D12898B15F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavalWar.DTO", "NavalWar2.DTO\NavalWar.DTO.csproj", "{26F98C63-50BE-47DC-A578-D1F8D9408AC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NavalWar.DTO", "NavalWar2.DTO\NavalWar.DTO.csproj", "{26F98C63-50BE-47DC-A578-D1F8D9408AC3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavalWar.DAL", "NavalWar.DAL\NavalWar.DAL.csproj", "{8E609715-6576-4292-BD9F-EC1B83AB7FC4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavalWar.BL", "NavalWar.BL\NavalWar.BL.csproj", "{7F38B95E-D0A2-4356-A99E-DF4D22E0597F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{26F98C63-50BE-47DC-A578-D1F8D9408AC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26F98C63-50BE-47DC-A578-D1F8D9408AC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26F98C63-50BE-47DC-A578-D1F8D9408AC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E609715-6576-4292-BD9F-EC1B83AB7FC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E609715-6576-4292-BD9F-EC1B83AB7FC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E609715-6576-4292-BD9F-EC1B83AB7FC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E609715-6576-4292-BD9F-EC1B83AB7FC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F38B95E-D0A2-4356-A99E-DF4D22E0597F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F38B95E-D0A2-4356-A99E-DF4D22E0597F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F38B95E-D0A2-4356-A99E-DF4D22E0597F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F38B95E-D0A2-4356-A99E-DF4D22E0597F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

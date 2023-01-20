@@ -5,12 +5,14 @@ using System.Linq;
 
 namespace NavalWar.DTO
 {
-    class Test
+    public class Test
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            PlayerDTO p = new PlayerDTO();
+
+            Console.WriteLine(p.Board.ToString());
+
         }
     }
-    
 }
