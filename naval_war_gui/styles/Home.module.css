@@ -5,6 +5,17 @@
   align-items: center;
   padding: 6rem;
   min-height: 100vh;
+  background-color: #abbfc0;
+}
+
+.titre{
+  display: flex;
+  justify-content: column;
+  align-items: center;
+  font-size: 55px;
+  max-width: var(--max-width);
+  width: 100%;
+  font-family: var(--font-mono);
 }
 
 .description {
