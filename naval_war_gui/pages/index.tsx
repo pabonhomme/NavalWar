@@ -1,9 +1,27 @@
+/** @mainpage GUI of Naval War game application
+ * <table>
+ * <tr><th>Project <td>Naval War
+ * <tr><th>Author  <td>Ao XIE, Xuanzhe XIA
+ * </table>
+ * @Section  Project Description
+ * Please add a description of this project
+ * @section Function Description
+ *  -# This project is based on Next.js development
+ * @section Project Updates
+ * <table>
+ * <tr><th>Date    <th>Version    <th>Author    <th>Description    </tr>
+ * <tr><td>2023.01.26 <td>1.0.0    <td>Paul    <td>Creating the initial version of project    </tr>
+ * </table>
+ */
+
 import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '../styles/Home.module.css';
 import Link from 'next/link'
 import image1 from './img/frontimage.jpg';
+
+import Registration from './registration/registration.js' 
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -52,7 +70,7 @@ export default function Home() {
           </Link>
 
           <a
-            href="https://www.huya.com/"
+            href="/registration/registration"
             className={styles.card}
             target="_blank"
             rel="noopener noreferrer"
@@ -75,7 +93,7 @@ export default function Home() {
               EXIT <span>-&gt;</span>
             </h2>
             <p className={inter.className}>
-              Merde
+              Bonjour!
             </p>
           </a>
 
