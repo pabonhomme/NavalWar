@@ -100,6 +100,12 @@ a {
   text-decoration: none;
 }
 
+.sty2{
+  background-color: red;
+  color: white;
+  font-size: 40px;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
