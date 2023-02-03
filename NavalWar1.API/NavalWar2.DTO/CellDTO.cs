@@ -59,7 +59,7 @@
 
         public override string ToString()
         {
-            if (!isVisited)
+            if (!isVisited || !isTouched())
             {
                 return "O";
             }
