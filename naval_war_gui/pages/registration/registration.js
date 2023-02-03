@@ -21,7 +21,7 @@ import Login from "./login.js";
 
 export default function Registration() {
     return (
-        <div>
+        <div className='container text-center'>
             <Login />
         </div>
     )

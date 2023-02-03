@@ -15,27 +15,44 @@
  ******************************************************************
  */
 
-import React from "react";
-import { useState } from "react";
+import React from "react"
+import Image from 'next/image'
+import Link from "next/link"
+import { useState } from "react"
+import 'bootstrap/dist/css/bootstrap.css'
+
+import userDefaultPhoto from "./userDefaultPhoto.png";
+import ChooseBoat from "../chooseBoat/chooseBoat.js";
 
 export default function Login(){
+
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [message, setMessage] = useState('');
 
+    const [user1, setUser1] = useState('');
+    const [user2, setUser2] = useState('');
+
     const handleSubmit = (event) => {
         event.preventDefault();
         
-        setMessage(`Hello ${firstName} ${lastName}!`);
+        setMessage(`${user1} is been kept!`);
         setFirstName('');
         setLastName('');
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form class="mb-3">
+            <Image 
+                src={userDefaultPhoto} 
+                class="rounded mx-auto d-block" 
+                alt="photo of users by default"
+            />
+            <label for="firstName" class="form-label">First Name</label>
             <input 
                 type="text"
                 id="firstName"
+                class="form-control"
                 name="firstName"
                 value={firstName}
                 placeholder="First Name"
@@ -43,10 +60,11 @@ export default function Login(){
                     setFirstName(event.target.value)
                 }
             />
-            <br />
+            <label for="lastName" class="form-label">Last Name</label>
             <input 
                 type="text"
                 id="lastName"
+                class="form-control"
                 name="lastName"
                 value={lastName}
                 placeholder="First Name"
@@ -55,8 +73,18 @@ export default function Login(){
                 }
             />
 
-            <button type="submit">Submit</button>
+            <button 
+                type="submit" 
+                class="btn btn-primary"
+                onClick={handleSubmit}
+                >Submit</button>
+            <br />
+            <br />
+            <button type="submit" class="btn btn-primary">
+                <Link to="/ChooseBoat">Start</Link>
+            </button>
 
+            <br />
             <br />
 
             <h2>{message}</h2>

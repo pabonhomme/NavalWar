@@ -25,6 +25,7 @@ import image1 from '../public/frontimage.jpg';
 
 
 import Registration from './registration/registration.js' 
+import ChooseBoat from "./chooseBoat/chooseBoat.js";
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -118,3 +119,4 @@ export default function Home() {
     </>
   )
 }
+
