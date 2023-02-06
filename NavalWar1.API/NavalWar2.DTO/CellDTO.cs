@@ -18,6 +18,8 @@
             Positions = positions;
         }
 
+        public CellDTO() { }
+
         /// <summary>
         /// Indicates if the cell contains a ship
         /// </summary>
