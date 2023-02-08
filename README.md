@@ -1,5 +1,5 @@
 <div align="center">
-    <img src = "./pages/img/frontimage.jpg">
+    <img src = "./naval_war_gui/pages/img/frontimage.jpg">
 </div>
 
 ![Catch](https://img.shields.io/badge/NEXT-%20JS-red)
