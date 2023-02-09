@@ -23,11 +23,6 @@ import styles from '../styles/Home.module.css';
 import Link from 'next/link'
 import image1 from '../public/frontimage.jpg';
 
-
-import Registration from './registration/registration.js' 
-import ChooseBoat from "./chooseBoat/chooseBoat.js";
-
-
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
@@ -73,8 +68,8 @@ export default function Home() {
             </p>
           </Link>
 
-          <a
-            href="/registration/registration"
+          <Link
+            href={"/registration/login"}
             className={styles.card}
             target="_blank"
             rel="noopener noreferrer"
@@ -85,7 +80,7 @@ export default function Home() {
             <p className={inter.className}>
             Dépêchez-vous
             </p>
-          </a>
+          </Link>
 
           <a
             href="#"

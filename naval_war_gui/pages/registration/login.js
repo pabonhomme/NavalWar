@@ -74,7 +74,7 @@ export default function Login(){
     //onSubmit={handleSubmit}
     return (
         <div className={styles.mainmanu}>
-            <form >
+            <form className="container">
                 <div class="container">
                     <User 
                         onFirstName={handleFA}
@@ -88,7 +88,7 @@ export default function Login(){
                 </div>
                 <br/>
                 <Link href={"../chooseBoat/chooseBoat"}>
-                    <button type="submit" className="btn btn-primary">
+                    <button type="submit" className="btn btn-primary" style={{textAlign:'center'}}>
                         HERE WE GO!
                     </button>
                 </Link>
