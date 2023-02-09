@@ -18,6 +18,7 @@
  */
 
 import React from "react";
+import Link from "next/link";
 import { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.css';
 import styles from '../../styles/Home.module.css';
@@ -60,35 +61,38 @@ export default function Login(){
                 lastNameUB
             })
         });
-
+        
         if(!response.ok){
             console.error('POST ERROR');
             return;
         }
+         
         const data = await response.json();
         console.log('Data received: ', data);
     }
 
+    //onSubmit={handleSubmit}
     return (
-        <form onSubmit={handleSubmit} className={styles.mainmanu}>
-            <div class="container">
-                <User 
-                    onFirstName={handleFA}
-                    onLastName={handleLA}
-                />
+        <div className={styles.mainmanu}>
+            <form >
+                <div class="container">
+                    <User 
+                        onFirstName={handleFA}
+                        onLastName={handleLA}
+                    />
+                    <br/>
+                    <User
+                        onFirstName={handleFB}
+                        onLastName={handleLB}
+                    />
+                </div>
                 <br/>
-                <User
-                    onFirstName={handleFB}
-                    onLastName={handleLB}
-                />
-            </div>
-            <br/>
-            <button 
-                type="submit"
-                class="btn btn-light"
-            >
-                HERE WE GO!
-            </button>
-        </form>
+                <Link href={"../chooseBoat/chooseBoat"}>
+                    <button type="submit" className="btn btn-primary">
+                        HERE WE GO!
+                    </button>
+                </Link>
+            </form>
+        </div>
     )
  }

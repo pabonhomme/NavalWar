@@ -17,12 +17,13 @@
 
  import React from "react";
  import { useState } from "react";
+ import styles from '../../styles/Home.module.css';
 
  import BoatMap from "./boatMap";
 
  export default function ChooseBoat() {
     return (
-        <div>
+        <div className={styles.mainmanu}>
             <BoatMap />
         </div>
     )
