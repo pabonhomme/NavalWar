@@ -35,17 +35,18 @@ const CommentBoard = () => {
     <main className={styles.mainmanu}>
     <div className={styles.container}>
       <h1 className={styles.title}>Comment Board</h1>
-    <div class="board">
-      <ul className={styles.commentsList}>
+    </div>
+    <div className={styles.CommentBoard}>
+      <ul className={styles.ulcomment}>
         {comments.map((comment, index) => (
-          <li key={index} className={styles.comment}>
+          <li key={index} className={styles.comment} >
             {comment}
           </li>
         ))}
       </ul>
     </div>
 
-    <div class="WriteComment">
+    <div className={styles.WriteComment}>
       <form className={styles.newCommentForm} onSubmit={handleCommentSubmit}>
         <textarea
           className={styles.textarea}
@@ -58,7 +59,6 @@ const CommentBoard = () => {
       </form>
       </div>
 
-    </div>
     </main>
   );
 };

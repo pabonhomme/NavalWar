@@ -84,7 +84,7 @@ export default function Home() {
           </Link>
 
           <Link
-            href="CommentSection"
+            href="#"
             className={styles.card}
             rel="noopener noreferrer"
           >
@@ -96,8 +96,8 @@ export default function Home() {
             </p>
           </Link>
 
-          <a
-            href="#"
+          <Link
+            href="CommentSection"
             className={styles.card}
             target="_blank"
             rel="noopener noreferrer"
@@ -108,7 +108,7 @@ export default function Home() {
             <p className={inter.className}>
             nous disputons
             </p>
-          </a>
+          </Link>
         </div>
       </main>
     </>
