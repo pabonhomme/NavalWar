@@ -2,7 +2,7 @@
  * @brief       The page of add boats
  * @author      Ao XIE
  * @date        2023.02.02
- * @version     1.0.0
+ * @version     1.0.1
  * @copyright   Copyright (c) 2023 XIE Ao. All rights reserved.
  *****************************************************************
  * @attention
@@ -16,7 +16,6 @@
  */
 
  import React from "react";
- import { useState } from "react";
  import styles from '../../styles/Home.module.css';
 
  import BoatMap from "./boatMap";

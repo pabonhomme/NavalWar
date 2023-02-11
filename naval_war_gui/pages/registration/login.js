@@ -2,11 +2,11 @@
  * @brief       To get the infos of the users
  * @author      Ao XIE
  * @date        2023.01.28
- * @version     1.1.0
+ * @version     1.1.1
  * @copyright   Copyright (c) 2023 XIE Ao. All rights reserved.
  *****************************************************************
  * @attention
- * Development environment: Windows
+ * Development environment: macOS Ventura 13.2
  * Using Fetch API
  * @par Modification log:
  * <table>
