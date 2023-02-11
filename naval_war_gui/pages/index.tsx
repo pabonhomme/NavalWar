@@ -13,9 +13,12 @@
  * <table>
  * <tr><th>Date        <th>Version  <th>Author    <th>Description
  * <tr><td>2023/01/27  <td>1.0      <td>Xuanzhe XIA  <td>Creating the initial version
+ * <tr><td>2023/02/10  <td>2.0      <td>Xuanzhe XIA  <td>Skip to this page
  * </table>
  ******************************************************************
  */
+import React from 'react';
+//import { Link } from 'react-router-dom';
 import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
@@ -55,9 +58,8 @@ export default function Home() {
 
         <div className={styles.grid}>
           <Link
-            href="manuel"
+            href="/manuel"
             className={styles.card}
-            target="_blank"
             rel="noopener noreferrer"
           >
             <h2 className={inter.className}>
@@ -71,7 +73,6 @@ export default function Home() {
           <Link
             href={"/registration/login"}
             className={styles.card}
-            target="_blank"
             rel="noopener noreferrer"
           >
             <h2 className={inter.className}>
@@ -82,10 +83,9 @@ export default function Home() {
             </p>
           </Link>
 
-          <a
+          <Link
             href="#"
             className={styles.card}
-            target="_blank"
             rel="noopener noreferrer"
           >
             <h2 className={inter.className}>
@@ -94,10 +94,10 @@ export default function Home() {
             <p className={inter.className}>
               Bonjour!
             </p>
-          </a>
+          </Link>
 
-          <a
-            href="#"
+          <Link
+            href="CommentSection"
             className={styles.card}
             target="_blank"
             rel="noopener noreferrer"
@@ -108,7 +108,7 @@ export default function Home() {
             <p className={inter.className}>
             nous disputons
             </p>
-          </a>
+          </Link>
         </div>
       </main>
     </>

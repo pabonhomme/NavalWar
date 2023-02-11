@@ -3,9 +3,52 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  padding: 6 px;
+  min-height: 100vh;
+  background-color:#ffffff70;
+}
+
+.commentsList {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+}
+
+.newCommentForm {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  bottom: 0;
+}
+
+.ulcomment{
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-self: start;
+  margin-left: 1 px;
+  margin-top: -74px;
+  justify-content: flex-start;
+  align-content: start; 
+}
+
+.CommentBoard{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   padding: 6rem;
   min-height: 100vh;
+  width: 400vh;
   background-color: #abbfc0;
+}
+
+.WriteComment{
+  flex-direction: column;
+  align-items: center;
+  justify-self:end; 
+  margin-bottom: 1 px;
 }
 
 .mainmanu {
