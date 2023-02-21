@@ -14,7 +14,7 @@
  * <tr><td>2023/02/07  <td>1.0      <td>Ao XIE  <td>Creating the initial version
  * </table>
  ******************************************************************
- */
+*/
 
  import React from "react";
  import userDefaultPhoto from "./userDefaultPhoto.png";

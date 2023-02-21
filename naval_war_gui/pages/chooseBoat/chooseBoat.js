@@ -15,15 +15,37 @@
  ******************************************************************
  */
 
- import React from "react";
- import styles from '../../styles/Home.module.css';
+import React from "react";
+import { useState } from "react";
+import styles from '../../styles/Home.module.css';
 
- import BoatMap from "./boatMap";
+import BoatMap from "./boatMap";
 
- export default function ChooseBoat() {
+export default function ChooseBoat() {
+    const [location, setLocation] = useState();
+    const [type, setType] = useState();
+    const [direction, setDirection] = useState();
+
+    const handleLocation = (value) => {
+        setLocation(value);
+    }
+
+    const handleType = (value) => {
+        setType(value);
+    }
+
+    const handleDirection = (value) => {
+        setDirection(value);
+    }
+
+
     return (
         <div className={styles.mainmanu}>
-            <BoatMap />
+            <BoatMap
+                getLocation={handleLocation}
+                getType={handleType}
+                getDirection={handleDirection}
+            />
         </div>
     )
  }

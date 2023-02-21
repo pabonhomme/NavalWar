@@ -2,14 +2,15 @@
  * @brief       The component of add 5 boats foreach player.
  * @author      Ao XIE
  * @date        2023.02.10
- * @version     2.1.1
+ * @version     2.1.2
  * @copyright   Copyright (c) 2023 XIE Ao. All rights reserved.
  *****************************************************************
  * @attention
  * Development environment: macOS Ventura 13.2
  * @par Modification log:
  * <table>
- * <tr><th>Date        <th>Version  <th>Author    <th>Description
+ * <tr><th>Date        <th>Version  <th>Author    <th>Description 
+ * <tr><td>2023/02/21  <td>3.0      <td>Ao XIE  <td>Code refactoring
  * <tr><td>2023/02/10  <td>2.1      <td>Ao XIE  <td>Add funcs about type of boats.
  * <tr><td>2023/02/09  <td>2.0      <td>Ao XIE  <td>First Edition of table of the boats.
  * <tr><td>2023/02/03  <td>1.0      <td>Ao XIE  <td>Creating the initial version
@@ -24,89 +25,61 @@ import React from "react"
 import 'bootstrap/dist/css/bootstrap.css'
 import { useState } from 'react'
 
- export default function BoatMap(){
+class Boat{
+    constructor(name, size, location, direction, situation){
+        this.name = name;
+        this.size = size;
+        this.location = location; // Int for the location.
+        this.direction = direction;
+        this.situation = situation; // True -> Existe already;
+    }
+};
+
+export default function BoatMap({getLocation, getType, getDirection}){
+
+    var Carrier = new Boat("Carrier", 5, 0, null, false);
+    var Battleship = new Boat("Battleship", 4, 0, null, false);
+    var Destroyer = new Boat("Destroyer", 3, 0, null, false);
+    var Submarine = new Boat("Submarine", 3, 0, null, false);
+    var Patrol_Boat = new Boat("Patrol_Boat", 2, 0, null, false);
+
+    var listBoat = new Array();
+    listBoat[0] = Carrier; 
+    listBoat[1] = Battleship;
+    listBoat[2] = Destroyer;
+    listBoat[3] = Submarine;
+    listBoat[4] = Patrol_Boat;
+
+    var typeBoat = -1; //If typeBoat is -1, then msg to choose boat.
+
     const [selected, setSeleted] = useState('');
-    const [type, setType] = useState('');
-    const [direction, setDirection] = useState('');
+    const [infoBoat, setInfoBoat] = useState('');
 
-    
-    
-
+    // For the color of each lattice.
     const handleClick = (index) => {
         setSeleted([...selected, index]);
+        // To store the position in the instance.
+        if ( typeBoat == -1) { alert("Please choose the type of this boat!"); }
+        else { listBoat[typeBoat].position = index; }
     }
 
+    // To store the type in the instance.
     const handleType = (index) => {
-        setType([...type, index.target.value]);
+        typeBoat = index; // typeBoat -> order in the list of boat.
     }
 
+    // To store the direction in the instance.
     const handleDirection = (index) => {
-        setDirection([...direction, index.target.value]);
+        if (typeBoat == -1) { alert("Please choose the type of this boat!"); }
+        else { listBoat[typeBoat].direction = index; }
     }
 
-    const submitInfos = (locationParam, typeParam, directionParam) => {
-        /* setSeleted([...selected, locationParam]);
-        setType([...type, typeParam.target.value]);
-        setDirection([...direction, directionParam.target.value]); */
+    // Use this to submit all the informations at once.
+    const submitInfos = () => {
         console.log("GET IT");
-        // Use this to submit all the informations at one time.
+        getType(type);
+        getDirection(direction);
     }
-
-    /*     <option value="1">Carrier(5)</option>
-                    <option value="2">Battleship(4)</option>
-                    <option value="3">Destroyer(3)</option>
-                    <option value="4">Submarine(3)</option>
-                    <option value="5">Patrol Boat(2)</option> */
-    // To get the numbers of each kind of boat.
-    const typeBoat = [];
-    var numBoats = [0, 0, 0, 0, 0];
-    for (let i=0; i<5; i++){
-        switch (i){
-            case 0:
-                if(numBoats[i]==0){
-                    typeBoat.push(
-                        <option value="1">Carrier(5)</option>
-                    );
-                }
-                break;
-            case 1:
-                if(numBoats[i]==0){
-                    typeBoat.push(
-                        <option value="2">Battleship(4)</option>
-                    );
-                }
-                break;
-            case 2:
-                if(numBoats[i]==0){
-                    typeBoat.push(
-                        <option value="3">Destroyer(3)</option>
-                    );
-                }
-                break;
-            case 3:
-                if(numBoats[i]==0){
-                    typeBoat.push(
-                        <option value="4">Submarine(3)</option>
-                    );
-                }
-                break;
-            case 4:
-                if(numBoats[i]==0){
-                    typeBoat.push(
-                        <option value="5">Patrol Boat(2)</option>
-                    );
-                }
-                break;
-
-        }
-        /* 
-        if(numBoats[i] == 0){
-            typeBoat.push(
-                <option value={i}>Carrier{i}</option>
-            );
-        } */
-    }
-
 
     const table = [];
     for (let i=0; i<11; i++){
@@ -146,7 +119,7 @@ import { useState } from 'react'
                 row.push(
                     <td
                         key={index}
-                        onClick={() => handleClick(index)}
+                        onClick={ () => handleClick(index)}
                         style = {{
                             backgroundColor: isSelected? '#00bcd4' : 'transparent',
                             width:'50px',
@@ -161,7 +134,6 @@ import { useState } from 'react'
         }
         table.push(<tr key={i}>{row}</tr>)
     }
-
 
 
     return (
@@ -182,8 +154,8 @@ import { useState } from 'react'
                         backgroundColor:'transparent'
                     }}
                 >
-                    <option selected disabled>TYPE</option>
-                    {typeBoat}
+                    <option key="0" defaultValue>TYPE</option>
+                    
                 </select>
                 <br/>
                 <select 
@@ -193,9 +165,9 @@ import { useState } from 'react'
                     aria-label="Disabled select example" 
                     style={{backgroundColor:'transparent'}}
                 >
-                    <option selected disabled>DIRECTION</option>
-                    <option value="Hor">Horizontal</option>
-                    <option value="Ver">Vertical</option>
+                    <option defaultValue>DIRECTION</option>
+                    <option key="Hor" value="Hor">Horizontal</option>
+                    <option key="Ver" value="Ver">Vertical</option>
                 </select>
                 <br/>
                 <button 
@@ -206,9 +178,6 @@ import { useState } from 'react'
                 >
                     SAVE
                 </button>
-                <div>
-                    {typeBoat}
-                </div>
             </div>
         </div>
       );
