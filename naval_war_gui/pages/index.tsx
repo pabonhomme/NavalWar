@@ -99,7 +99,6 @@ export default function Home() {
           <Link
             href="CommentSection"
             className={styles.card}
-            target="_blank"
             rel="noopener noreferrer"
           >
             <h2 className={inter.className}>

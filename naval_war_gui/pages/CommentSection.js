@@ -12,6 +12,7 @@
  * @par Modification log:
  * <table>
  * <tr><th>Date        <th>Version  <th>Author    <th>Description
+ * <tr><td>2023/02/24  <td>2.0      <td>Xuanzhe XIA  <td>Beautification
  * <tr><td>2023/02/10  <td>1.0      <td>Xuanzhe XIA  <td>Comments section page
  * </table>
  ******************************************************************
@@ -32,36 +33,36 @@ const CommentBoard = () => {
   };
 
   return (
-    <main className={styles.mainmanu}>
-    <div className={styles.container}>
-      <h1 className={styles.title}>Comment Board</h1>
-    </div>
-    <div className={styles.CommentBoard}>
-      <ul className={styles.ulcomment}>
-        {comments.map((comment, index) => (
-          <li key={index} className={styles.comment} >
-            {comment}
-          </li>
-        ))}
-      </ul>
-    </div>
-
-    <div className={styles.WriteComment}>
-      <form className={styles.newCommentForm} onSubmit={handleCommentSubmit}>
-        <textarea
-          className={styles.textarea}
-          value={newComment}
-          onChange={(event) => setNewComment(event.target.value)}
-        />
-        <button className={styles.submitButton} type="submit">
-          Submit
-        </button>
-      </form>
+    <main className="container-fluid">
+      <div className="container">
+        <h1 className="text-center">Comment Board</h1>
+      </div>
+      <div className="row">
+        <ul className="list-unstyled">
+          {comments.map((comment, index) => (
+            <li key={index} className="col-12 mb-2 p-3 bg-light rounded" >
+              {comment}
+            </li>
+          ))}
+        </ul>
       </div>
 
+      <div className="row">
+        <form className="col-12" onSubmit={handleCommentSubmit}>
+          <textarea
+            className="form-control"
+            value={newComment}
+            onChange={(event) => setNewComment(event.target.value)}
+          />
+          <button className="btn btn-primary mt-2" type="submit">
+            Submit
+          </button>
+        </form>
+      </div>
     </main>
   );
 };
 
 export default CommentBoard;
+
 
