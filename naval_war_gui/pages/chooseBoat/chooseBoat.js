@@ -22,29 +22,19 @@ import styles from '../../styles/Home.module.css';
 import BoatMap from "./boatMap";
 
 export default function ChooseBoat() {
-    const [location, setLocation] = useState();
-    const [type, setType] = useState();
-    const [direction, setDirection] = useState();
+    const [boat, setBoat] = useState('');
 
-    const handleLocation = (value) => {
-        setLocation(value);
-    }
-
-    const handleType = (value) => {
-        setType(value);
-    }
-
-    const handleDirection = (value) => {
-        setDirection(value);
+    const handleBoat = (value) => {
+        setBoat(value);
+        // Then, we need to send a POST to backend with this fonction.
+        // TODO: POST FUNCTION
     }
 
 
     return (
         <div className={styles.mainmanu}>
             <BoatMap
-                getLocation={handleLocation}
-                getType={handleType}
-                getDirection={handleDirection}
+                setBoat={handleBoat}
             />
         </div>
     )

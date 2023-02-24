@@ -10,6 +10,7 @@
  * @par Modification log:
  * <table>
  * <tr><th>Date        <th>Version  <th>Author    <th>Description 
+ * <tr><td>2023/02/21  <td>3.1      <td>Ao XIE  <td>Set the information of boat to a state.
  * <tr><td>2023/02/21  <td>3.0      <td>Ao XIE  <td>Code refactoring
  * <tr><td>2023/02/10  <td>2.1      <td>Ao XIE  <td>Add funcs about type of boats.
  * <tr><td>2023/02/09  <td>2.0      <td>Ao XIE  <td>First Edition of table of the boats.
@@ -20,12 +21,14 @@
 
  // 1 -> 5
  // 4 3 3 2
-import React from "react"
+import React from "react";
 
-import 'bootstrap/dist/css/bootstrap.css'
-import { useState } from 'react'
+import 'bootstrap/dist/css/bootstrap.css';
+import { useState } from 'react';
+import { type } from "os";
 
 class Boat{
+
     constructor(name, size, location, direction, situation){
         this.name = name;
         this.size = size;
@@ -33,9 +36,19 @@ class Boat{
         this.direction = direction;
         this.situation = situation; // True -> Existe already;
     }
+
+    // function to get infos for a boat.
+    getBoat() {
+        let infomationForBoat = 
+            this.name + ";" + this.size + ";" +
+            this.location + ";" + this.direction + ";" +
+            this.situation;
+        return infomationForBoat;
+            
+    } 
 };
 
-export default function BoatMap({getLocation, getType, getDirection}){
+export default function BoatMap({setBoat}){
 
     var Carrier = new Boat("Carrier", 5, 0, null, false);
     var Battleship = new Boat("Battleship", 4, 0, null, false);
@@ -43,6 +56,7 @@ export default function BoatMap({getLocation, getType, getDirection}){
     var Submarine = new Boat("Submarine", 3, 0, null, false);
     var Patrol_Boat = new Boat("Patrol_Boat", 2, 0, null, false);
 
+    //var listBoat[Carrier, Battleship, Destroyer, Submarine, Patrol_Boat];
     var listBoat = new Array();
     listBoat[0] = Carrier; 
     listBoat[1] = Battleship;
@@ -50,35 +64,75 @@ export default function BoatMap({getLocation, getType, getDirection}){
     listBoat[3] = Submarine;
     listBoat[4] = Patrol_Boat;
 
-    var typeBoat = -1; //If typeBoat is -1, then msg to choose boat.
-
     const [selected, setSeleted] = useState('');
     const [infoBoat, setInfoBoat] = useState('');
+    const [dirBoat, setDirBoat] = useState(null);
+    const [typeBoat, setTypeBoat] = useState(null);
+    const [localBoat, setLocalBoat] = useState(null);
 
     // For the color of each lattice.
     const handleClick = (index) => {
-        setSeleted([...selected, index]);
-        // To store the position in the instance.
-        if ( typeBoat == -1) { alert("Please choose the type of this boat!"); }
-        else { listBoat[typeBoat].position = index; }
+        
+        // To store the location in the instance.
+        if ( typeBoat == null) { alert("Please choose the type of this boat!"); }
+        else if (dirBoat == null) { alert("Please choose the direction of this boat!"); }
+        else { 
+            if (dirBoat == "Hor") {
+                for (let i=0; i<listBoat[typeBoat].size; i++) {
+                    ((i)=> {
+                        setTimeout(()=> {
+                            setSeleted([...selected, index+i]);
+                        }, 10);
+                    })(i);
+                }
+            }
+            else {
+                for (let j=0; j<listBoat[typeBoat].size; ++j) {
+                    setSeleted([...selected, index+(10*j)]);
+                }
+            }
+            setLocalBoat(index);
+        }
     }
 
     // To store the type in the instance.
     const handleType = (index) => {
-        typeBoat = index; // typeBoat -> order in the list of boat.
+        setTypeBoat(index.target.value); // typeBoat -> order in the list of boat.
     }
 
     // To store the direction in the instance.
     const handleDirection = (index) => {
-        if (typeBoat == -1) { alert("Please choose the type of this boat!"); }
-        else { listBoat[typeBoat].direction = index; }
+        if (typeBoat == null) { alert("Please choose the type of this boat!"); }
+        else { 
+            setDirBoat(index.target.value);
+        }
     }
 
     // Use this to submit all the informations at once.
     const submitInfos = () => {
-        console.log("GET IT");
-        getType(type);
-        getDirection(direction);
+        if (typeBoat == null || dirBoat == null || localBoat == null) {
+            alert("ATTENTION TO YOUR BOAT!!!!")
+        }
+        else {
+            listBoat[typeBoat].direction = dirBoat;
+            listBoat[typeBoat].location = localBoat;
+            listBoat[typeBoat].situation = true;
+            setInfoBoat([...infoBoat, listBoat[typeBoat]]);
+            setBoat(listBoat[typeBoat]);
+            console.log("GET IT");
+        }
+    }
+
+    
+    const optionBoat = [];
+    for (let i=0; i<5; i++) {
+        if (listBoat[i].situation == false) {
+            optionBoat.push(
+                <option key={i} value={i}>
+                    {listBoat[i].name}
+                </option>
+            )
+        }
     }
 
     const table = [];
@@ -137,7 +191,7 @@ export default function BoatMap({getLocation, getType, getDirection}){
 
 
     return (
-        <div className="row g-3" onSubmit={() => submitInfos()}>
+        <div className="row g-3">
             <table 
                 className="col-sm-9"
                 style={{ borderCollapse: 'collapse' }}
@@ -155,7 +209,7 @@ export default function BoatMap({getLocation, getType, getDirection}){
                     }}
                 >
                     <option key="0" defaultValue>TYPE</option>
-                    
+                    {optionBoat}
                 </select>
                 <br/>
                 <select 
