@@ -17,10 +17,17 @@
  * </table>
  ******************************************************************
  */
+
+
 import React, { useState } from "react";
-import Link from 'next/link'
+import Link from 'next/link';
 import styles from '../styles/Home.module.css';
 import 'bootstrap/dist/css/bootstrap.css';
+import Image from 'next/image'
+import ImgUser from '../public/CommentImg.jpg'
+
+
+
 
 const CommentBoard = () => {
   const [comments, setComments] = useState([]);
@@ -36,27 +43,33 @@ const CommentBoard = () => {
     <main className="container-fluid">
       <div className="container">
         <h1 className="text-center">Comment Board</h1>
+        
       </div>
       <div className="row">
-        <ul className="list-unstyled">
-          {comments.map((comment, index) => (
-            <li key={index} className="col-12 mb-2 p-3 bg-light rounded" >
-              {comment}
-            </li>
-          ))}
-        </ul>
+        {comments.map((comment, index) => (
+          <div key={index} className="col-12 mb-2">
+            <div className="media bg-light rounded p-3">
+              <span className="media-body" style={{ display: 'inline-flex', alignItems: 'center' }}>
+              <Image src={ImgUser} className="mr-3 rounded-circle inline-block" alt="User" />
+                <p>{comment}</p>
+              </span>
+            </div>
+          </div>
+        ))}
       </div>
-
       <div className="row">
         <form className="col-12" onSubmit={handleCommentSubmit}>
-          <textarea
-            className="form-control"
-            value={newComment}
-            onChange={(event) => setNewComment(event.target.value)}
-          />
-          <button className="btn btn-primary mt-2" type="submit">
-            Submit
-          </button>
+          <div className="input-group mb-3">
+          <Image src={ImgUser} className="mr-3 rounded-circle inline-block" alt="User" />
+            <textarea
+              className="form-control"
+              value={newComment}
+              onChange={(event) => setNewComment(event.target.value)}
+            />
+            <button className="btn btn-primary" type="submit">
+              Submit
+            </button>
+          </div>
         </form>
       </div>
     </main>
@@ -64,5 +77,6 @@ const CommentBoard = () => {
 };
 
 export default CommentBoard;
+
 
 
