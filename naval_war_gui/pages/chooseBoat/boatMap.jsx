@@ -25,7 +25,6 @@ import React from "react";
 
 import 'bootstrap/dist/css/bootstrap.css';
 import { useState } from 'react';
-import { type } from "os";
 
 class Boat{
 
@@ -77,20 +76,21 @@ export default function BoatMap({setBoat}){
         if ( typeBoat == null) { alert("Please choose the type of this boat!"); }
         else if (dirBoat == null) { alert("Please choose the direction of this boat!"); }
         else { 
-            if (dirBoat == "Hor") {
+            /* if (dirBoat == "Hor") {
+                var table = [];
+
                 for (let i=0; i<listBoat[typeBoat].size; i++) {
-                    ((i)=> {
-                        setTimeout(()=> {
-                            setSeleted([...selected, index+i]);
-                        }, 10);
-                    })(i);
+                    table.push(index+i);
                 }
+                setSeleted([...selected, table]);
             }
             else {
                 for (let j=0; j<listBoat[typeBoat].size; ++j) {
                     setSeleted([...selected, index+(10*j)]);
                 }
             }
+            setLocalBoat(index); */
+            setSeleted([...selected, index]);
             setLocalBoat(index);
         }
     }

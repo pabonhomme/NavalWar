@@ -43,14 +43,14 @@ const CommentBoard = () => {
     <main className="container-fluid">
       <div className="container">
         <h1 className="text-center">Comment Board</h1>
-        
+
       </div>
       <div className="row">
         {comments.map((comment, index) => (
           <div key={index} className="col-12 mb-2">
             <div className="media bg-light rounded p-3">
               <span className="media-body" style={{ display: 'inline-flex', alignItems: 'center' }}>
-              <Image src={ImgUser} className="mr-3 rounded-circle inline-block" alt="User" />
+                <Image src={ImgUser} className="mr-3 rounded-circle inline-block" alt="User" />
                 <p>{comment}</p>
               </span>
             </div>
@@ -60,7 +60,7 @@ const CommentBoard = () => {
       <div className="row">
         <form className="col-12" onSubmit={handleCommentSubmit}>
           <div className="input-group mb-3">
-          <Image src={ImgUser} className="mr-3 rounded-circle inline-block" alt="User" />
+            <Image src={ImgUser} className="mr-3 rounded-circle inline-block" alt="User" />
             <textarea
               className="form-control"
               value={newComment}

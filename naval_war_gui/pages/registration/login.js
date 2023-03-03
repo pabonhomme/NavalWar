@@ -26,7 +26,7 @@ import styles from '../../styles/Home.module.css';
 
 import User from "./addUser.js";
 
-export default function Login(){
+export default function Login() {
 
     // FUNCTIONS TO GET INFOMATIONS
     const [firstNameUA, setFirsetNameUA] = useState('');
@@ -48,7 +48,7 @@ export default function Login(){
     }
 
     //FUNCTIONS TO SEND POST
-    const handleSubmit = async(event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const response = await fetch('siteweb', {
             method: 'POST',
@@ -62,12 +62,12 @@ export default function Login(){
                 lastNameUB
             })
         });
-        
-        if(!response.ok){
+
+        if (!response.ok) {
             console.error('POST ERROR');
             return;
         }
-         
+
         const data = await response.json();
         console.log('Data received: ', data);
     }
@@ -77,23 +77,23 @@ export default function Login(){
         <div className={styles.mainmanu}>
             <form className="container">
                 <div class="container">
-                    <User 
+                    <User
                         onFirstName={handleFA}
                         onLastName={handleLA}
                     />
-                    <br/>
+                    <br />
                     <User
                         onFirstName={handleFB}
                         onLastName={handleLB}
                     />
                 </div>
-                <br/>
+                <br />
                 <Link href={"../chooseBoat/chooseBoat"}>
-                    <button type="submit" className="btn btn-primary" style={{textAlign:'center'}}>
+                    <button type="submit" className="btn btn-primary" style={{ textAlign: 'center' }}>
                         HERE WE GO!
                     </button>
                 </Link>
             </form>
         </div>
     )
- }
+}
