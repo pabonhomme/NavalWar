@@ -20,6 +20,7 @@
 import React from "react";
 import Link from "next/link";
 import { useState } from "react";
+
 import 'bootstrap/dist/css/bootstrap.css';
 import styles from '../../styles/Home.module.css';
 
@@ -27,6 +28,7 @@ import styles from '../../styles/Home.module.css';
 import User from "./addUser.js";
 
 export default function Login() {
+
 
     // FUNCTIONS TO GET INFOMATIONS
     const [firstNameUA, setFirsetNameUA] = useState('');

@@ -10,6 +10,7 @@
  * @par Modification log:
  * <table>
  * <tr><th>Date        <th>Version  <th>Author    <th>Description 
+ * <tr><td>2023/03/03  <td>3.2      <td>Ao XIE  <td>Finished but not really
  * <tr><td>2023/02/21  <td>3.1      <td>Ao XIE  <td>Set the information of boat to a state.
  * <tr><td>2023/02/21  <td>3.0      <td>Ao XIE  <td>Code refactoring
  * <tr><td>2023/02/10  <td>2.1      <td>Ao XIE  <td>Add funcs about type of boats.
@@ -19,16 +20,18 @@
  ******************************************************************
  */
 
- // 1 -> 5
- // 4 3 3 2
+// 1 -> 5
+// 4 3 3 2
 import React from "react";
 
 import 'bootstrap/dist/css/bootstrap.css';
 import { useState } from 'react';
 
-class Boat{
+//import TypeBoat from "./typeBoat";
 
-    constructor(name, size, location, direction, situation){
+class Boat {
+
+    constructor(name, size, location, direction, situation) {
         this.name = name;
         this.size = size;
         this.location = location; // Int for the location.
@@ -38,16 +41,16 @@ class Boat{
 
     // function to get infos for a boat.
     getBoat() {
-        let infomationForBoat = 
+        let infomationForBoat =
             this.name + ";" + this.size + ";" +
             this.location + ";" + this.direction + ";" +
             this.situation;
         return infomationForBoat;
-            
-    } 
+
+    }
 };
 
-export default function BoatMap({setBoat}){
+export default function BoatMap({ setBoat }) {
 
     var Carrier = new Boat("Carrier", 5, 0, null, false);
     var Battleship = new Boat("Battleship", 4, 0, null, false);
@@ -57,7 +60,7 @@ export default function BoatMap({setBoat}){
 
     //var listBoat[Carrier, Battleship, Destroyer, Submarine, Patrol_Boat];
     var listBoat = new Array();
-    listBoat[0] = Carrier; 
+    listBoat[0] = Carrier;
     listBoat[1] = Battleship;
     listBoat[2] = Destroyer;
     listBoat[3] = Submarine;
@@ -71,11 +74,11 @@ export default function BoatMap({setBoat}){
 
     // For the color of each lattice.
     const handleClick = (index) => {
-        
+
         // To store the location in the instance.
-        if ( typeBoat == null) { alert("Please choose the type of this boat!"); }
+        if (typeBoat == null) { alert("Please choose the type of this boat!"); }
         else if (dirBoat == null) { alert("Please choose the direction of this boat!"); }
-        else { 
+        else {
             /* if (dirBoat == "Hor") {
                 var table = [];
 
@@ -103,7 +106,7 @@ export default function BoatMap({setBoat}){
     // To store the direction in the instance.
     const handleDirection = (index) => {
         if (typeBoat == null) { alert("Please choose the type of this boat!"); }
-        else { 
+        else {
             setDirBoat(index.target.value);
         }
     }
@@ -120,13 +123,17 @@ export default function BoatMap({setBoat}){
             setInfoBoat([...infoBoat, listBoat[typeBoat]]);
             setBoat(listBoat[typeBoat]);
             console.log("GET IT");
+
+            console.log(JSON.stringify(Carrier));
+            //this.forceUpdate();
+            //window.location.reload();
         }
     }
 
-    
     const optionBoat = [];
-    for (let i=0; i<5; i++) {
-        if (listBoat[i].situation == false) {
+    for (let i = 0; i < 5; i++) {
+        let x = infoBoat.includes(listBoat[i].name);
+        if (x = true/* listBoat[i].situation == false */) {
             optionBoat.push(
                 <option key={i} value={i}>
                     {listBoat[i].name}
@@ -135,49 +142,50 @@ export default function BoatMap({setBoat}){
         }
     }
 
+
     const table = [];
-    for (let i=0; i<11; i++){
+    for (let i = 0; i < 11; i++) {
         const row = [];
-        for (let j=0; j<11; j++){
+        for (let j = 0; j < 11; j++) {
             const index = 10 * i + j;
-            if(i==0){
+            if (i == 0) {
                 row.push(
-                    <td 
-                    key={index}
-                    style={{
-                        width:'50',
-                        height:'50px',
-                        border: '1px solid #ccc',
-                        textAlign: 'center'
-                    }}>
+                    <td
+                        key={index}
+                        style={{
+                            width: '50',
+                            height: '50px',
+                            border: '1px solid #ccc',
+                            textAlign: 'center'
+                        }}>
                         {j}
                     </td>
                 );
             }
-            else if(j == 0){
+            else if (j == 0) {
                 row.push(
-                    <td 
-                    key={index}
-                    style={{
-                        width:'50px',
-                        height:'50px',
-                        border: '1px solid #ccc',
-                        textAlign: 'center'
-                    }}>
+                    <td
+                        key={index}
+                        style={{
+                            width: '50px',
+                            height: '50px',
+                            border: '1px solid #ccc',
+                            textAlign: 'center'
+                        }}>
                         {i}
                     </td>
                 );
             }
-            else{
+            else {
                 const isSelected = selected.includes(index);
                 row.push(
                     <td
                         key={index}
-                        onClick={ () => handleClick(index)}
-                        style = {{
-                            backgroundColor: isSelected? '#00bcd4' : 'transparent',
-                            width:'50px',
-                            height:'50px',
+                        onClick={() => handleClick(index)}
+                        style={{
+                            backgroundColor: isSelected ? '#00bcd4' : 'transparent',
+                            width: '50px',
+                            height: '50px',
                             textAlign: 'center',
                             border: '1px solid #ccc'
                         }}
@@ -192,47 +200,48 @@ export default function BoatMap({setBoat}){
 
     return (
         <div className="row g-3">
-            <table 
+            <table
                 className="col-sm-9"
                 style={{ borderCollapse: 'collapse' }}
             >
                 <tbody>{table}</tbody>
             </table>
             <div className="col-sm" >
-                <select 
+                <br />
+                <select
                     key="getType"
-                    className="form-select" 
+                    className="form-select"
                     onChange={handleType}
-                    aria-label="Disabled select example" 
+                    aria-label="Disabled select example"
                     style={{
-                        backgroundColor:'transparent'
+                        backgroundColor: 'transparent'
                     }}
                 >
                     <option key="0" defaultValue>TYPE</option>
                     {optionBoat}
                 </select>
-                <br/>
-                <select 
+                <br />
+                <select
                     key="getDirection"
-                    className="form-select" 
+                    className="form-select"
                     onChange={handleDirection}
-                    aria-label="Disabled select example" 
-                    style={{backgroundColor:'transparent'}}
+                    aria-label="Disabled select example"
+                    style={{ backgroundColor: 'transparent' }}
                 >
                     <option defaultValue>DIRECTION</option>
                     <option key="Hor" value="Hor">Horizontal</option>
                     <option key="Ver" value="Ver">Vertical</option>
                 </select>
-                <br/>
-                <button 
+                <br />
+                <button
                     onClick={submitInfos}
-                    type="submit" 
-                    className="btn btn-primary" 
-                    style={{textAlign:'center'}}
+                    type="submit"
+                    className="btn btn-primary"
+                    style={{ textAlign: 'center' }}
                 >
                     SAVE
                 </button>
             </div>
         </div>
-      );
- };
+    );
+};

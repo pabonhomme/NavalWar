@@ -15,27 +15,82 @@
  ******************************************************************
  */
 
+
 import React from "react";
 import { useState } from "react";
+import { useRouter } from "next/router";
 import styles from '../../styles/Home.module.css';
 
 import BoatMap from "./boatMap";
 
+
 export default function ChooseBoat() {
+    const router = useRouter();
+    // For the times of user.
+    // 0 -> 4 user1
+    // 5 -> 9 user2
+    // 10 -> done
+    const [user, setUser] = useState(0);
     const [boat, setBoat] = useState('');
 
     const handleBoat = (value) => {
         setBoat(value);
-        // Then, we need to send a POST to backend with this fonction.
-        // TODO: POST FUNCTION
+        let i = user;
+        i += 1;
+        setUser(i);
+        console.log(getUser());
+
+        /* const json = JSON.stringify(boat);
+            fetch('/api/person', {
+                method: 'POST',
+                body: json,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error('Error sending person instance: ', error);
+                }); */
+    }
+
+    const getUser = () => {
+        let userNow = "user1";
+        if (4 < user && user <= 9) { userNow = "user2"; }
+        if (user == 10) {
+            userNow = "Done";
+            // After the two users finished their boat, 
+            // turn to page of game.
+            router.push('../battle/battleField');
+        }
+        return userNow;
+    }
+
+    const ShowUser = () => {
+        let userNow = getUser();
+        return (
+            <h1 className="text-center">
+                {userNow}
+            </h1>
+        );
     }
 
 
     return (
         <div className={styles.mainmanu}>
+            <ShowUser />
+            <br />
             <BoatMap
                 setBoat={handleBoat}
             />
         </div>
     )
- }
+}
