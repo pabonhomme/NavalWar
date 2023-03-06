@@ -25,7 +25,7 @@
         /// Indicates if the boat is sunk
         /// </summary>
         /// <returns>true if sunk</returns>
-        public bool isSunk()
+        public bool IsSunk()
         {
             return CellTouched == Size;
         }
@@ -33,7 +33,7 @@
         /// <summary>
         /// Increments CellTouched when a boat's cell is touched
         /// </summary>
-        public void addCellTouched()
+        public void AddCellTouched()
         {
             if(CellTouched < Size)
             {

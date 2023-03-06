@@ -1,6 +1,9 @@
-﻿using NavalWar.BL.Interfaces;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using NavalWar.BL.Interfaces;
 using NavalWar.DAL.Interfaces;
+using NavalWar.DAL.Models;
 using NavalWar.DTO;
+using NavalWar2.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,14 +24,10 @@ namespace NavalWar.BL
         }
 
         #region GET
-        public IEnumerable<GameDTO> Get()
+        public GameDTO Get()
         {
-            return _gameRepository.Get();
-        }
-
-        public GameDTO Get(int id)
-        {
-            return _gameRepository.Get(id);
+            GameDTO game = _gameRepository.Get(0);
+            return game;
         }
         #endregion
 
@@ -46,9 +45,7 @@ namespace NavalWar.BL
                 GameDTO game = new GameDTO();
                 game.p1 = new PlayerDTO(1);
                 game.p2 = new PlayerDTO(2);
-                game.p1.OppositeBoard = game.p2.OppositeBoard;
-                game.p2.OppositeBoard = game.p1.OppositeBoard;
-                game.currentPlayer = game.p1;
+                game.currentPlayer = 1;
                 game.hasPlayed = false;
                 game.hasTouched = false;
                 _playerService.Add(game.p1);
@@ -81,11 +78,78 @@ namespace NavalWar.BL
         }
         #endregion
 
-        public GameDTO LoadGame()
+        public GameDTO PutBoat(ShipDTO ship)
         {
-            GameDTO game = Get(0);
-            game.p1.OppositeBoard = game.p2.OppositeBoard;
-            game.p2.OppositeBoard = game.p1.OppositeBoard;
+            GameDTO game = Get();
+            switch (game.currentPlayer)
+            {
+                case 1:
+                    if (game.p1.Board.PutBoat(ship)) // if we can place the boat on the board
+                    {
+                        SaveGame(game);
+                        return game;
+                    }
+                    break;
+                case 2:
+                    if (game.p2.Board.PutBoat(ship)) // if we can place the boat on the board
+                    {
+                        SaveGame(game);
+                        return game;
+                    }
+                    break;
+            }
+            return null;
+        }
+
+        public GameDTO Shoot(int row, int column)
+        {
+            GameDTO game = Get();
+            switch (game.currentPlayer)
+            {
+                case 1:
+                    if (!game.p2.Board.IsVisited(row, column))
+                    {
+                        game.p2.Board.Visit(row, column);
+                        game.hasTouched = game.p2.Board.IsTouched(row, column);
+                        game.hasPlayed = true;
+                        SaveGame(game);
+                        return game;
+                    }
+                    break;
+                case 2:
+                    if (!game.p1.Board.IsVisited(row, column))
+                    {
+                        game.p1.Board.Visit(row, column);
+                        game.hasTouched = game.p1.Board.IsTouched(row, column);
+                        game.hasPlayed = true;
+                        SaveGame(game);
+                        return game;
+                    }
+                    break;
+            }
+            
+            return null;
+        }
+
+        public GameDTO ChangeTurn(GameDTO game)
+        {
+            game = ChangePlayer(game);
+            game.hasTouched = false;
+            game.hasPlayed=false;
+            SaveGame(game);
+            return game;
+        }
+
+        public GameDTO ChangePlayer(GameDTO game)
+        {
+            if(game.currentPlayer == game.p1.Id)
+            {
+                game.currentPlayer = 2;
+            }
+            else
+            {
+                game.currentPlayer = 1;
+            }
             return game;
         }
 
@@ -103,6 +167,13 @@ namespace NavalWar.BL
                 Console.WriteLine(e.Message);
             }
             return false;
+        }
+
+        public bool isGameFinished()
+        {
+            GameDTO game = Get();
+
+            return game.currentPlayer == 1 ? game.p2.Board.IsBoardSunk() : game.p1.Board.IsBoardSunk(); // if current player equal 1 then we look if the p2's board is sunk so the game might be finished
         }
     }
 }

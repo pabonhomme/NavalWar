@@ -22,7 +22,7 @@ namespace NavalWar.DAL.Extensions
                 Id = dto.Id,
                 p1 = dto.p1.Id,
                 p2 = dto.p2.Id,
-                currentPlayer = dto.currentPlayer.Id,
+                currentPlayer = dto.currentPlayer,
                 hasPlayed= dto.hasPlayed,
                 hasTouched= dto.hasTouched,
             };
@@ -40,7 +40,7 @@ namespace NavalWar.DAL.Extensions
                 Id = entity.Id,
                 p1 = new PlayerDTO(),
                 p2= new PlayerDTO(),
-                currentPlayer = new PlayerDTO(),
+                currentPlayer = entity.currentPlayer,
                 hasPlayed = entity.hasPlayed,
                 hasTouched = entity.hasTouched,
             };

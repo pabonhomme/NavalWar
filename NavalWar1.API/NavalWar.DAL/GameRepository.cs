@@ -48,14 +48,6 @@ namespace NavalWar.DAL
                 GameDTO gameDTO = game.ToDTO();
                 gameDTO.p1 = player1;
                 gameDTO.p2 = player2;
-                if(game.currentPlayer == player1.Id)
-                {
-                    gameDTO.currentPlayer = player1;
-                }
-                else
-                {
-                    gameDTO.currentPlayer = player2;
-                }
                 return gameDTO;
             }
             catch (Exception ex)

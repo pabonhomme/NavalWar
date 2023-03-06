@@ -3,6 +3,7 @@ using NavalWar.BL;
 using NavalWar.BL.Interfaces;
 using NavalWar.DAL.Interfaces;
 using NavalWar.DTO;
+using NavalWar2.DTO;
 
 namespace NavalWar.API.Controllers
 {
@@ -19,10 +20,18 @@ namespace NavalWar.API.Controllers
 
         #region GET
         [HttpGet]
-        [Route("{id}")]
-        public GameDTO Get(int id)
+        [Route("")]
+        public GameDTO Get()
         {
-            return _gameService.Get(id);
+            return _gameService.Get();
+
+        }
+
+        [HttpGet]
+        [Route("isGameFinished")]
+        public bool isGamefinished()
+        {
+            return _gameService.isGameFinished();
 
         }
         #endregion
@@ -37,20 +46,47 @@ namespace NavalWar.API.Controllers
         }
 
         [HttpPost]
-        [Route("putBoat")]
-        public bool PutBoat()
+        [Route("shoot/{row}/{column}")]
+        public ActionResult Shoot(int row, int column)
         {
-            var state = _gameService.StartGame();
-            return state;
+            GameDTO game = Get();
+            game = _gameService.Shoot(row, column);
+            if(game == null)
+            {
+                return BadRequest("Cell already visited");
+            }
+            return Ok(game);
+        }
+
+        [HttpPost]
+        [Route("changeTurn")]
+        public ActionResult ChangeTurn()
+        {
+            GameDTO game = Get();
+            game = _gameService.ChangeTurn(game);
+            return Ok(game);
+        }
+
+        [HttpPost]
+        [Route("putBoat/{row}/{column}/{orientation}/{size}")]
+        public ActionResult PutBoat(int row, int column, OrientationDTO orientation, int size)
+        {
+            ShipDTO ship = new ShipDTO(row, column, orientation, size);
+            GameDTO game = _gameService.PutBoat(ship);
+            if(game == null)
+            {
+                return BadRequest("The boat hasn't been placed");
+            }
+            return Ok(game);
         }
         #endregion
 
         #region DELETE
         [HttpDelete]
-        [Route("{id}")]
-        public ActionResult Delete(int id)
+        [Route("")]
+        public ActionResult Delete()
         {
-            var playerDTO = Get(id);
+            var playerDTO = Get();
 
             if (playerDTO is null)
             {

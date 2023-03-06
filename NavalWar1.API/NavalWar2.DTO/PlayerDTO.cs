@@ -15,8 +15,6 @@ namespace NavalWar.DTO
 
         public BoardDTO Board { get; set; }
 
-        public BoardDTO OppositeBoard { get; set; }
-
         public PlayerDTO() { }
         public PlayerDTO(int Id)
         {

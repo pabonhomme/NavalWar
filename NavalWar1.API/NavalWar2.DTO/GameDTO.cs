@@ -19,7 +19,7 @@ namespace NavalWar.DTO
 
         public PlayerDTO p2 { get; set; }
 
-        public PlayerDTO currentPlayer { get; set; }
+        public int currentPlayer { get; set; }
 
         public bool hasTouched { get; set; }
 
