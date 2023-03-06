@@ -27,6 +27,7 @@ export default function Battle() {
     // false -> player 2
     const [player, setPlayer] = useState(true);
     const [selected, setSeleted] = useState('');
+    const [thisTime, setThisTime] = useState('');
 
     const sendPost = () => {
         // TODO: FUNCTION TO SEND THE POST
@@ -35,6 +36,20 @@ export default function Battle() {
     const getPlayer = () => {
         let playerNow = "Player T_T I don't know who :-(....";
         return playerNow;
+    }
+
+    const sendPixel = async (event) => {
+        event.preventDefault();
+        const send = await fetch('fight/api', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'applicztion/json'
+            },
+            body: JSON.stringify({
+                getPlayer,
+                thisTime
+            })
+        });
     }
 
     const getPost = () => {
@@ -46,6 +61,7 @@ export default function Battle() {
                 return response.json();
             })
             .then(object => {
+                console.log("This time u get as follow:");
                 console.log(object);
             })
             .catch(error => {

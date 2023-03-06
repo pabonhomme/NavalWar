@@ -2,7 +2,7 @@
  * @brief       The component of add 5 boats foreach player.
  * @author      Ao XIE
  * @date        2023.02.10
- * @version     2.1.2
+ * @version     3.2.0
  * @copyright   Copyright (c) 2023 XIE Ao. All rights reserved.
  *****************************************************************
  * @attention
@@ -26,7 +26,7 @@ import React from "react";
 
 import 'bootstrap/dist/css/bootstrap.css';
 import { useState } from 'react';
-
+import Swal from "sweetalert2";
 //import TypeBoat from "./typeBoat";
 
 class Boat {
@@ -50,7 +50,7 @@ class Boat {
     }
 };
 
-export default function BoatMap({ setBoat }) {
+export default function BoatMap({ setBoat, user }) {
 
     var Carrier = new Boat("Carrier", 5, 0, null, false);
     var Battleship = new Boat("Battleship", 4, 0, null, false);
@@ -71,41 +71,83 @@ export default function BoatMap({ setBoat }) {
     const [dirBoat, setDirBoat] = useState(null);
     const [typeBoat, setTypeBoat] = useState(null);
     const [localBoat, setLocalBoat] = useState(null);
+    const [typeExiste, setTypeExiste] = useState('');
+
 
     // For the color of each lattice.
     const handleClick = (index) => {
-
         // To store the location in the instance.
-        if (typeBoat == null) { alert("Please choose the type of this boat!"); }
-        else if (dirBoat == null) { alert("Please choose the direction of this boat!"); }
+        if (typeBoat == null) {
+            Swal.fire({
+                title: 'Whoops!',
+                text: 'Please choose the type of this boat!',
+                icon: 'error',
+                confirmButtonText: 'Fine'
+            });
+        }
+        else if (dirBoat == null) {
+            Swal.fire({
+                title: 'Whoops!',
+                text: 'Please choose the direction of this boat!',
+                icon: 'error',
+                confirmButtonText: 'Fine'
+            });
+        }
+        else if (typeExiste.includes(typeBoat)) {
+            Swal.fire({
+                title: 'Whoops!',
+                text: 'You have this type of boat already!',
+                icon: 'error',
+                confirmButtonText: 'Fine'
+            });
+        }
+        /* else {
+            if (getReponseBackend() != 'OK') {
+                alert("You can't place your boat here");
+            } */
         else {
-            /* if (dirBoat == "Hor") {
-                var table = [];
-
-                for (let i=0; i<listBoat[typeBoat].size; i++) {
-                    table.push(index+i);
+            var table = [];
+            if (dirBoat == "Hor") {
+                for (let i = 0; i < listBoat[typeBoat].size; i++) {
+                    table.push(index + i);
                 }
-                setSeleted([...selected, table]);
             }
             else {
-                for (let j=0; j<listBoat[typeBoat].size; ++j) {
-                    setSeleted([...selected, index+(10*j)]);
+                for (let j = 0; j < listBoat[typeBoat].size; ++j) {
+                    table.push(index + j * 10);
                 }
             }
-            setLocalBoat(index); */
-            setSeleted([...selected, index]);
+            setLocalBoat(index);
+            //setSeleted([...selected, index]);
+            setSeleted([...selected, table]); // Replace the single numbers to array of numbers.
             setLocalBoat(index);
         }
+        //}
     }
 
     // To store the type in the instance.
     const handleType = (index) => {
-        setTypeBoat(index.target.value); // typeBoat -> order in the list of boat.
+        if (typeExiste.includes(index.target.value)) {
+            Swal.fire({
+                title: 'Whoops!',
+                text: 'You have this type of boat already!',
+                icon: 'error',
+                confirmButtonText: 'Fine'
+            });
+        }
+        else { setTypeBoat(index.target.value); } // typeBoat -> order in the list of boat. 
     }
 
     // To store the direction in the instance.
     const handleDirection = (index) => {
-        if (typeBoat == null) { alert("Please choose the type of this boat!"); }
+        if (typeBoat == null) {
+            Swal.fire({
+                title: 'Whoops!',
+                text: 'Please choose the type of this boat!',
+                icon: 'error',
+                confirmButtonText: 'Fine'
+            });
+        }
         else {
             setDirBoat(index.target.value);
         }
@@ -114,32 +156,57 @@ export default function BoatMap({ setBoat }) {
     // Use this to submit all the informations at once.
     const submitInfos = () => {
         if (typeBoat == null || dirBoat == null || localBoat == null) {
-            alert("ATTENTION TO YOUR BOAT!!!!")
+            Swal.fire({
+                title: 'Whoops!',
+                text: 'ATTENTION TO YOUR BOAT!',
+                icon: 'error',
+                confirmButtonText: 'Fine'
+            });
+        }
+        else if (typeExiste.includes(typeBoat)) {
+            Swal.fire({
+                title: 'Whoops!',
+                text: 'You have this type of boat already!',
+                icon: 'error',
+                confirmButtonText: 'Fine'
+            });
         }
         else {
             listBoat[typeBoat].direction = dirBoat;
             listBoat[typeBoat].location = localBoat;
             listBoat[typeBoat].situation = true;
             setInfoBoat([...infoBoat, listBoat[typeBoat]]);
+            setTypeExiste([...typeExiste, typeBoat]);
             setBoat(listBoat[typeBoat]);
-            console.log("GET IT");
-
-            console.log(JSON.stringify(Carrier));
+            Swal.fire({
+                title: 'Lovely!',
+                text: 'You have one more boat now!',
+                icon: 'success',
+                confirmButtonText: 'Okey'
+            });
             //this.forceUpdate();
             //window.location.reload();
+            // After the 
         }
     }
 
     const optionBoat = [];
     for (let i = 0; i < 5; i++) {
-        let x = infoBoat.includes(listBoat[i].name);
-        if (x = true/* listBoat[i].situation == false */) {
-            optionBoat.push(
-                <option key={i} value={i}>
-                    {listBoat[i].name}
-                </option>
-            )
+        optionBoat.push(
+            <option key={i} value={i}>
+                {listBoat[i].name}
+            </option>
+        )
+    }
+
+
+    const setIsSelected = (index) => {
+        for (let i = 0; i < selected.length; i++) {
+            if (selected[i].indexOf(index) !== -1) {
+                return true;
+            }
         }
+        return false;
     }
 
 
@@ -177,7 +244,11 @@ export default function BoatMap({ setBoat }) {
                 );
             }
             else {
-                const isSelected = selected.includes(index);
+                /* const isSelected = selected.forEach(element => {
+                    element.includes(index);
+                }); */
+                //const isSelected = selected.includes(index);
+                const isSelected = setIsSelected(index);
                 row.push(
                     <td
                         key={index}
@@ -217,7 +288,7 @@ export default function BoatMap({ setBoat }) {
                         backgroundColor: 'transparent'
                     }}
                 >
-                    <option key="0" defaultValue>TYPE</option>
+                    <option key="null" defaultValue>TYPE</option>
                     {optionBoat}
                 </select>
                 <br />
@@ -228,7 +299,7 @@ export default function BoatMap({ setBoat }) {
                     aria-label="Disabled select example"
                     style={{ backgroundColor: 'transparent' }}
                 >
-                    <option defaultValue>DIRECTION</option>
+                    <option key="null" defaultValue>DIRECTION</option>
                     <option key="Hor" value="Hor">Horizontal</option>
                     <option key="Ver" value="Ver">Vertical</option>
                 </select>
@@ -241,6 +312,7 @@ export default function BoatMap({ setBoat }) {
                 >
                     SAVE
                 </button>
+                <br />
             </div>
         </div>
     );

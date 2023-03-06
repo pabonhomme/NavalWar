@@ -38,7 +38,6 @@ export default function ChooseBoat() {
         let i = user;
         i += 1;
         setUser(i);
-        console.log(getUser());
 
         /* const json = JSON.stringify(boat);
             fetch('/api/person', {
@@ -64,7 +63,9 @@ export default function ChooseBoat() {
 
     const getUser = () => {
         let userNow = "user1";
-        if (4 < user && user <= 9) { userNow = "user2"; }
+        if (4 < user && user <= 9) {
+            userNow = "user2";
+        }
         if (user == 10) {
             userNow = "Done";
             // After the two users finished their boat, 
@@ -83,13 +84,15 @@ export default function ChooseBoat() {
         );
     }
 
-
+    var userNow = getUser();
     return (
         <div className={styles.mainmanu}>
             <ShowUser />
             <br />
             <BoatMap
+                key={userNow}
                 setBoat={handleBoat}
+                user={user}
             />
         </div>
     )
