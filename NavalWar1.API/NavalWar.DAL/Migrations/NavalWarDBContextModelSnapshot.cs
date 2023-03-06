@@ -21,14 +21,46 @@ namespace NavalWar.DAL.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("NavalWar.DAL.Models.Player", b =>
+            modelBuilder.Entity("NavalWar.DAL.Models.Game", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("id");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<int>("currentPlayer")
+                        .HasColumnType("int")
+                        .HasColumnName("currentPlayer");
+
+                    b.Property<bool>("hasPlayed")
+                        .HasColumnType("bit")
+                        .HasColumnName("hasPlayed");
+
+                    b.Property<bool>("hasTouched")
+                        .HasColumnType("bit")
+                        .HasColumnName("hasTouched");
+
+                    b.Property<int>("p1")
+                        .HasColumnType("int")
+                        .HasColumnName("p1");
+
+                    b.Property<int>("p2")
+                        .HasColumnType("int")
+                        .HasColumnName("p2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Game", (string)null);
+                });
+
+            modelBuilder.Entity("NavalWar.DAL.Models.Player", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Board")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Pseudo")
                         .IsRequired()

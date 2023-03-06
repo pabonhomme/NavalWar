@@ -5,16 +5,18 @@ using NavalWar2.DTO;
 Console.WriteLine("Hello, World!");
 
 
-PlayerDTO p = new PlayerDTO();
+PlayerDTO p1 = new PlayerDTO();
+PlayerDTO p2 = new PlayerDTO();
 
-Console.WriteLine(p.Board.ToString());
+p1.OppositeBoard = p2.Board;
+p2.OppositeBoard = p1.Board;
 
-p.Board.putBoat(new ShipDTO(1, 2, OrientationDTO.Horizontal, 4));
+Console.WriteLine(p2.Board.ToString());
 
-p.Board.visit(5, 5);
+p2.Board.putBoat(new ShipDTO(1, 2, OrientationDTO.Horizontal, 4));
 
-p.Board.visit(1, 2);
+p1.OppositeBoard.visit(5, 5);
 
+p1.OppositeBoard.visit(1, 2);
 
-
-Console.WriteLine(p.Board.ToString());
+Console.WriteLine(p2.Board.ToString());

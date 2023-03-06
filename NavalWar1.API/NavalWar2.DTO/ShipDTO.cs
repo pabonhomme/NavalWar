@@ -3,6 +3,7 @@
     /// <summary>
     /// Define a boat
     /// </summary>
+    [Serializable]
     public class ShipDTO
     {
         public Tuple<int, int> Positions { get; set; }

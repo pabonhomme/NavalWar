@@ -10,19 +10,31 @@ using System.Threading.Tasks;
 
 namespace NavalWar.DTO
 {
+    [Serializable]
     public class BoardDTO
     {
+        [NonSerialized]
         public static readonly int BoardSize = 10;
 
+        [NonSerialized]
         public static readonly List<int> SizeShips = new List<int> { 5, 4, 3, 3, 2 };
 
+        [NonSerialized]
         public static readonly int Nb_Boat = SizeShips.Count();
 
-        public List<ShipDTO> Ships = new List<ShipDTO>();
+        public List<ShipDTO> Ships { get; set; }
 
-        public readonly List<CellDTO> Grid= new List<CellDTO>();
+        public List<CellDTO> Grid { get; set; }
         public BoardDTO()
         {
+            Ships = new List<ShipDTO>();
+            Grid = new List<CellDTO>();
+        }
+
+        public BoardDTO(int id)
+        {
+            Ships = new List<ShipDTO>();
+            Grid = new List<CellDTO>();
             CreateGrid();
         }
 

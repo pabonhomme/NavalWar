@@ -3,6 +3,7 @@
     /// <summary>
     /// Define a Cell
     /// </summary>
+    [Serializable]
     public class CellDTO
     {
         public Tuple<int, int> Positions { get; set; }
@@ -61,9 +62,13 @@
 
         public override string ToString()
         {
-            if (!isVisited || !isTouched())
+            if (!isVisited && !isTouched())
             {
                 return "O";
+            }
+            else if (isVisited && !isTouched())
+            {
+                return "x";
             }
             else return "X";
         }

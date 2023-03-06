@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using NavalWar.BL;
+using NavalWar.BL.Interfaces;
 using NavalWar.DAL;
 using NavalWar.DAL.Interfaces;
 
@@ -20,6 +21,9 @@ builder.Services.AddDbContext<NavalWarDBContext>(options =>
 
 builder.Services.AddScoped<IPlayerService, PlayerService>();
 builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
+
+builder.Services.AddScoped<IGameService, GameService>();
+builder.Services.AddScoped<IGameRepository, GameRepository>();
 
 var app = builder.Build();
 
