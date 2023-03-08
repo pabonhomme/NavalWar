@@ -72,11 +72,18 @@ export default function BoatMap({ setBoat, user }) {
     const [typeBoat, setTypeBoat] = useState(null);
     const [localBoat, setLocalBoat] = useState(null);
     const [typeExiste, setTypeExiste] = useState('');
+    const [size, setSize] = useState('');
+
+
+    function splitDigits(num) {
+        const tens = Math.floor(num / 10);
+        const ones = num % 10;
+        return [tens, ones];
+    }
 
 
     // For the color of each lattice.
     const handleClick = (index) => {
-        // To store the location in the instance.
         if (typeBoat == null) {
             Swal.fire({
                 title: 'Whoops!',
@@ -101,27 +108,51 @@ export default function BoatMap({ setBoat, user }) {
                 confirmButtonText: 'Fine'
             });
         }
-        /* else {
-            if (getReponseBackend() != 'OK') {
-                alert("You can't place your boat here");
-            } */
-        else {
-            var table = [];
-            if (dirBoat == "Hor") {
-                for (let i = 0; i < listBoat[typeBoat].size; i++) {
-                    table.push(index + i);
-                }
+        else 
+        let [x, y] = splitDigits(index);
+        console.log("tessst");
+        event.preventDefault();
+        fetch(`http://localhost:5199/api/Game/putBoat/${x}/${y}/${dirBoat}/${size}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
             }
-            else {
-                for (let j = 0; j < listBoat[typeBoat].size; ++j) {
-                    table.push(index + j * 10);
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    Swal.fire({
+                        title: 'Whoops!',
+                        text: 'U can not put your boat here!',
+                        icon: 'error',
+                        confirmButtonText: 'Fine'
+                    });
                 }
-            }
-            setLocalBoat(index);
-            //setSeleted([...selected, index]);
-            setSeleted([...selected, table]); // Replace the single numbers to array of numbers.
-            setLocalBoat(index);
-        }
+                else {
+                    
+                        var table = [];
+                        if (dirBoat == "Hor") {
+                            for (let i = 0; i < listBoat[typeBoat].size; i++) {
+                                table.push(index + i);
+                            }
+                        }
+                        else {
+                            for (let j = 0; j < listBoat[typeBoat].size; ++j) {
+                                table.push(index + j * 10);
+                            }
+                        }
+                        setLocalBoat(index);
+                        //setSeleted([...selected, index]);
+                        setSeleted([...selected, table]); // Replace the single numbers to array of numbers.
+                        setLocalBoat(index);
+                    }
+
+                }
+
+
+            })
+            .catch((error) => {
+                alert(error.message);
+            });
         //}
     }
 
@@ -135,7 +166,10 @@ export default function BoatMap({ setBoat, user }) {
                 confirmButtonText: 'Fine'
             });
         }
-        else { setTypeBoat(index.target.value); } // typeBoat -> order in the list of boat. 
+        else { 
+            setTypeBoat(index.target.value);
+            setSize(index.target.value); 
+        } // typeBoat -> order in the list of boat. 
     }
 
     // To store the direction in the instance.
@@ -300,8 +334,8 @@ export default function BoatMap({ setBoat, user }) {
                     style={{ backgroundColor: 'transparent' }}
                 >
                     <option key="null" defaultValue>DIRECTION</option>
-                    <option key="Hor" value="Hor">Horizontal</option>
-                    <option key="Ver" value="Ver">Vertical</option>
+                    <option key="HORISONTAL" value="HORISONTAL">Horizontal</option>
+                    <option key="VERTICAL" value="VERTICAL">Vertical</option>
                 </select>
 
                 <br />

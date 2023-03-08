@@ -18,7 +18,7 @@ namespace NavalWar.BL.Interfaces
 
         public bool Remove(GameDTO game);
 
-        public bool StartGame();
+        public bool StartGame(string pseudo1, string pseudo2);
 
         public GameDTO PutBoat(ShipDTO ship);
 

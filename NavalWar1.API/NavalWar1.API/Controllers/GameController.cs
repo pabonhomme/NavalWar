@@ -38,10 +38,10 @@ namespace NavalWar.API.Controllers
 
         #region POST
         [HttpPost]
-        [Route("start")]
-        public bool StartGame()
+        [Route("start/{pseudo1}/{pseudo2}")]
+        public bool StartGame(string pseudo1, string pseudo2)
         {
-            var state = _gameService.StartGame();
+            var state = _gameService.StartGame(pseudo1, pseudo2);
             return state;
         }
 

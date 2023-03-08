@@ -38,13 +38,13 @@ namespace NavalWar.BL
             return _gameRepository.Add(game);
         }
 
-        public bool StartGame()
+        public bool StartGame(string pseudo1, string pseudo2)
         {
             try
             {
                 GameDTO game = new GameDTO();
-                game.p1 = new PlayerDTO(1);
-                game.p2 = new PlayerDTO(2);
+                game.p1 = new PlayerDTO(1, pseudo1);
+                game.p2 = new PlayerDTO(2, pseudo2);
                 game.currentPlayer = 1;
                 game.hasPlayed = false;
                 game.hasTouched = false;

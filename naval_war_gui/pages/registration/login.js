@@ -33,8 +33,6 @@ export default function Login() {
     // FUNCTIONS TO GET INFOMATIONS
     const [firstNameUA, setFirsetNameUA] = useState('');
     const [firstNameUB, setFirsetNameUB] = useState('');
-    const [lastNameUA, setLastNameUA] = useState('');
-    const [lastNameUB, setLastNameUB] = useState('');
 
     const handleFA = (value) => {
         setFirsetNameUA(value);
@@ -49,52 +47,52 @@ export default function Login() {
         setLastNameUB(value);
     }
 
-    //FUNCTIONS TO SEND POST
-    const handleSubmit = async (event) => {
+    function onSubmit(event) {
+        console.log("tessst");
         event.preventDefault();
-        const response = await fetch('siteweb', {
+        fetch(`http://localhost:5199/api/Game/start/${firstNameUA}/${firstNameUB}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                firstNameUA,
-                lastNameUA,
-                firstNameUB,
-                lastNameUB
+            }
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    return response.text().then((errorMessage) => {
+                        throw new Error(errorMessage);
+                    });
+                }
+
+                window.location.href = "http://localhost:3000/chooseBoat/chooseBoat";
+
             })
-        });
-
-        if (!response.ok) {
-            console.error('POST ERROR');
-            return;
-        }
-
-        const data = await response.json();
-        console.log('Data received: ', data);
+            .catch((error) => {
+                alert(error.message);
+            });
     }
+
+    //FUNCTIONS TO SEND POST
+    {/* <Link href={"../chooseBoat/chooseBoat"}>
+                    ≈
+                </Link> */}
 
     //onSubmit={handleSubmit}
     return (
         <div className={styles.mainmanu}>
-            <form className="container">
-                <div class="container">
+            <form className="container" onSubmit={onSubmit}>
+                <div className="container">
                     <User
                         onFirstName={handleFA}
-                        onLastName={handleLA}
                     />
                     <br />
                     <User
                         onFirstName={handleFB}
-                        onLastName={handleLB}
                     />
                 </div>
                 <br />
-                <Link href={"../chooseBoat/chooseBoat"}>
-                    <button type="submit" className="btn btn-primary" style={{ textAlign: 'center' }}>
-                        HERE WE GO!
-                    </button>
-                </Link>
+                <button type="submit" className="btn btn-primary" style={{ textAlign: 'center' }}>
+                    HERE WE GO!
+                </button>
             </form>
         </div>
     )

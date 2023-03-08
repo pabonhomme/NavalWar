@@ -33,33 +33,35 @@ export default function ChooseBoat() {
     const [user, setUser] = useState(0);
     const [boat, setBoat] = useState('');
 
-    const handleBoat = (value) => {
-        setBoat(value);
-        let i = user;
-        i += 1;
-        setUser(i);
+    function splitDigits(num) {
+        const tens = Math.floor(num / 10);
+        const ones = num % 10;
+        return [tens, ones];
+    }
 
-        /* const json = JSON.stringify(boat);
-            fetch('/api/person', {
-                method: 'POST',
-                body: json,
-                headers: {
-                    'Content-Type': 'application/json'
+    function onSubmit(event) {
+        /* let [x, y] = splitDigits(boat.location);
+        console.log("tessst");
+        event.preventDefault();
+        fetch(`http://localhost:5199/api/Game/putBoat/${x}/${y}/${boat.direction}/${boat.size}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    return response.text().then((errorMessage) => {
+                        throw new Error(errorMessage);
+                    });
                 }
             })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log(data);
-                })
-                .catch(error => {
-                    console.error('Error sending person instance: ', error);
-                }); */
+            .catch((error) => {
+                alert(error.message);
+            }); */
     }
+
+
 
     const getUser = () => {
         let userNow = "user1";
@@ -91,7 +93,7 @@ export default function ChooseBoat() {
             <br />
             <BoatMap
                 key={userNow}
-                setBoat={handleBoat}
+                setBoat={onSubmit}
                 user={user}
             />
         </div>

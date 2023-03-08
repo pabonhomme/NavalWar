@@ -16,10 +16,10 @@ namespace NavalWar.DTO
         public BoardDTO Board { get; set; }
 
         public PlayerDTO() { }
-        public PlayerDTO(int Id)
+        public PlayerDTO(int Id, string pseudo)
         {
             this.Id= Id;
-            Pseudo = "";
+            Pseudo = pseudo;
             Score = 0;
             Board = new BoardDTO(0);
         }

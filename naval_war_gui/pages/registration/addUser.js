@@ -22,53 +22,38 @@
  import Image from 'next/image';
  import { useState } from "react";
 
- export default function User({onFirstName, onLastName}){
+ export default function User({onFirstName}){
 
     const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
 
     const getFirstName = (event) => {
         setFirstName(event.target.value);
         onFirstName(event.target.value);
     }
 
-    const getLastName = (event) => {
-        setLastName(event.target.value);
-        onLastName(event.target.value);
-    }
 
     return (
-        <div class="row">
-            <div class="col">
+        <div className="row">
+            <div className="col">
                 <Image 
                     src={userDefaultPhoto} 
-                    class="rounded mx-auto d-block" 
+                    className="rounded mx-auto d-block" 
                     alt="photo of users by default"
                 />
             </div>
-            <div class="col">
+            <div className="col">
                 <br/>
                 <br/>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="inputGroup-sizing-default">First Name</span>
+                <div className="input-group mb-3">
+                    <span className="input-group-text" id="inputGroup-sizing-default">First Name</span>
                     <input 
                         type="text" 
-                        class="form-control" 
+                        className="form-control" 
                         aria-label="Sizing example input" 
                         aria-describedby="inputGroup-sizing-default"
                         onChange={getFirstName}
                     />
                 </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="inputGroup-sizing-default">Last Name</span>
-                    <input 
-                        type="text" 
-                        class="form-control" 
-                        aria-label="Sizing example input" 
-                        aria-describedby="inputGroup-sizing-default"
-                        onChange={getLastName} 
-                    />
-                </div> 
             </div>
         </div>
     )

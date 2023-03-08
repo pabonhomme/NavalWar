@@ -38,6 +38,14 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+app.UseRouting();
+
+// Allow CORS
+app.UseCors(builder => builder
+    .WithOrigins("http://localhost:3000") // Add your allowed origins here
+    .AllowAnyMethod()
+    .AllowAnyHeader());
+
 app.MapControllers();
 
 app.Run();
