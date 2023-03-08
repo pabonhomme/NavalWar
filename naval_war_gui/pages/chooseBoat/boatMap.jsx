@@ -179,10 +179,11 @@ export default function BoatMap({ setBoat, user }) {
             setTypeExiste([...typeExiste, typeBoat]);
             setBoat(listBoat[typeBoat]);
             Swal.fire({
+                position: 'top-end',
                 title: 'Lovely!',
                 text: 'You have one more boat now!',
                 icon: 'success',
-                confirmButtonText: 'Okey'
+                showConfirmButton: false,
             });
             //this.forceUpdate();
             //window.location.reload();
@@ -268,7 +269,6 @@ export default function BoatMap({ setBoat, user }) {
         table.push(<tr key={i}>{row}</tr>)
     }
 
-
     return (
         <div className="row g-3">
             <table
@@ -303,6 +303,7 @@ export default function BoatMap({ setBoat, user }) {
                     <option key="Hor" value="Hor">Horizontal</option>
                     <option key="Ver" value="Ver">Vertical</option>
                 </select>
+
                 <br />
                 <button
                     onClick={submitInfos}

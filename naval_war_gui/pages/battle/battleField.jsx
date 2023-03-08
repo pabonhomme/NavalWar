@@ -10,6 +10,7 @@
  * @par Modification log:
  * <table>
  * <tr><th>Date        <th>Version  <th>Author    <th>Description 
+ * <tr><td>2023/03/07  <td>1.1      <td>Ao XIE  <td>Add fn of GET and POST
  * <tr><td>2023/02/03  <td>1.0      <td>Ao XIE  <td>Creating the initial version
  * </table>
  ******************************************************************
@@ -25,9 +26,23 @@ export default function Battle() {
 
     // true -> player 1
     // false -> player 2
-    const [player, setPlayer] = useState(true);
     const [selected, setSeleted] = useState('');
-    const [thisTime, setThisTime] = useState('');
+    const [user, setUser] = useState('');
+
+    const [mapUser1, setMapUser1] = useState('');
+    const [mapUser2, setMapUser2] = useState('');
+
+    const [response, setResponse] = useState('');
+
+    const setMap1 = () => {
+        let map = getPost();
+        setMapUser1(map);
+    }
+
+    const setMap2 = () => {
+        let map = getPost();
+        setMapUser2(map);
+    }
 
     const sendPost = () => {
         // TODO: FUNCTION TO SEND THE POST
@@ -47,13 +62,19 @@ export default function Battle() {
             },
             body: JSON.stringify({
                 getPlayer,
-                thisTime
+                user
             })
         });
     }
+    const getUser = () => {
+        // to get if needed to change user of not
+        if (response == false) {
+            return false;
+        }
+    }
 
     const getPost = () => {
-        fetch('https://example.com/api/object')
+        fetch('')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -69,8 +90,28 @@ export default function Battle() {
             });
     }
 
+    /*     const handleClick = (index) => {
+            setSeleted([...selected, index]);
+        } */
+
     const handleClick = (index) => {
-        setSeleted([...selected, index]);
+        setSeleted(index);
+    }
+
+    const someoneWin = () => {
+        Swal.fire({
+            title: 'Congratulations! YOU ARE THE WINNER!',
+            width: 600,
+            padding: '3em',
+            color: '#716add',
+            background: '#fff url(/images/trees.png)',
+            backdrop: `
+              rgba(0,0,123,0.4)
+              url("/images/nyan-cat.gif")
+              left top
+              no-repeat
+            `
+        })
     }
 
 
@@ -136,7 +177,7 @@ export default function Battle() {
                 className="col-sm-9"
                 style={{ borderCollapse: 'collapse' }}
             >
-                <tbody>{table}</tbody>
+                <tbody key={user}>{table}</tbody>
             </table>
         </div>
     );
