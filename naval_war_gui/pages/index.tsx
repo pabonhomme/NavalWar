@@ -84,19 +84,6 @@ export default function Home() {
           </Link>
 
           <Link
-            href="#"
-            className={styles.card}
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              EXIT <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Bonjour!
-            </p>
-          </Link>
-
-          <Link
             href="CommentSection"
             className={styles.card}
             rel="noopener noreferrer"
