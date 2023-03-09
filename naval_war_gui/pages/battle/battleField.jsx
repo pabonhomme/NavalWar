@@ -2,7 +2,7 @@
  * @brief       The page of battle.
  * @author      Ao XIE
  * @date        2023.03.03
- * @version     1.0.0
+ * @version     2.1
  * @copyright   Copyright (c) 2023 XIE Ao. All rights reserved.
  *****************************************************************
  * @attention
@@ -10,6 +10,7 @@
  * @par Modification log:
  * <table>
  * <tr><th>Date        <th>Version  <th>Author    <th>Description 
+ * <tr><td>2023/03/09  <td>2.0      <td>Ao XIE  <td>Update POST to backend
  * <tr><td>2023/03/07  <td>1.1      <td>Ao XIE  <td>Add fn of GET and POST
  * <tr><td>2023/02/03  <td>1.0      <td>Ao XIE  <td>Creating the initial version
  * </table>
@@ -19,16 +20,25 @@
 
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from '../../styles/Home.module.css';
+import Swal from "sweetalert2";
 
 export default function Battle() {
 
-    // true -> player 1
-    // false -> player 2
-    const [selected, setSeleted] = useState('');
+    const storedUser1 = sessionStorage.getItem('user1');
+    const storedUser2 = sessionStorage.getItem('user2');
+
+    const [visited, setVisited] = useState('');
     const [haveBoat, setHaveBoat] = useState('');
-    const [user, setUser] = useState(true);
+    const [user, setUser] = useState('');
+
+    // Set the first player
+    useEffect(() => {
+        if (storedUser1 != null && storedUser2 != null) {
+            setUser(storedUser1);
+        }
+    }, [])
 
 
     function splitDigits(num) {
@@ -45,22 +55,77 @@ export default function Battle() {
                 'Content-Type': 'application/json'
             }
         })
-        .then((response) => {
-            if(!response.ok) {
-                alert("Something wrong");
-            }
-            else{
-                setSeleted(index);
-                // to set the situation of boat
-                for (let i=0; i<10; i++){
-                    for (let j=0; j<10 ; j++){
-                        // Set those in differet color
-                        /************************* IMPORTANT */
+            .then((response) => {
+                if (!response.ok) {
+                    Swal.fire({
+                        title: 'Whoops!',
+                        text: 'You can not choose there!!',
+                        icon: 'error',
+                        confirmButtonText: 'Fine'
+                    });
+                }
+                else {
+                    tableVisited = [];
+                    tableBoat = [];
+
+                    if (user == storedUser2) {
+                        // for VISITED
+                        const visitedItems = response.p1.board.grid.filter((gridItem) => gridItem.isVisited);
+                        const visitedItemsPositions = visitedItems.map((visitedItem) => visitedItem.positions);
+                        visitedItemsPositions.map((position) => {
+                            tableVisited.push(position.item1 * 10 + position.item2);
+                        });
+                        // for SHIP
+                        const shipItems = response.p1.board.grid.filter((gridItem) => gridItem.ship);
+                        const shipItemsPositions = shipItems.map((shipItem) => shipItem.positions);
+                        shipItemsPositions.map((position) => {
+                            tableBoat.push(position.item1 * 10 + position.item2);
+                        });
+                    }
+                    if (user == storedUser1) {
+                        // for VISITED
+                        const visitedItems = response.p2.board.grid.filter((gridItem) => gridItem.isVisited);
+                        const visitedItemsPositions = visitedItems.map((visitedItem) => visitedItem.positions);
+                        visitedItemsPositions.map((position) => {
+                            tableVisited.push(position.item1 * 10 + position.item2);
+                        });
+                        // for SHIP
+                        const shipItems = response.p2.board.grid.filter((gridItem) => gridItem.ship);
+                        const shipItemsPositions = shipItems.map((shipItem) => shipItem.positions);
+                        shipItemsPositions.map((position) => {
+                            tableBoat.push(position.item1 * 10 + position.item2);
+                        });
+                    }
+                    setVisited(tableVisited);
+                    setHaveBoat(tableBoat);
+
+                    // To get the turn 
+                    if (!tableVisited.indexOf(index) || !tableBoat.indexOf(index)) {
+                        setTimeout(() => {
+                            changerUser();
+                        }, 2000);
+                    }
+                    else {
+                        fetch('http://localhost:5199/api/Game/isGameFinished', {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then((response) => {
+                            if (response==true) {
+                                someoneWin();
+                            }
+                        })
                     }
                 }
-            }
-        })
+            })
     }
+
+    const changerUser = () => {
+        if (user == storedUser1) { setUser(storedUser2); }
+        if (user == storedUser2) { setUser(storedUser1); }
+    };
 
     const someoneWin = () => {
         Swal.fire({
@@ -76,6 +141,23 @@ export default function Battle() {
               no-repeat
             `
         })
+    }
+
+    const setIsVisited = (index) => {
+        for (let i = 0; i < visited.length; i++) {
+            if (isVisited[i].indexOf(index) != -1) {
+                return true;
+            }
+        }
+        return false;
+    }
+    const setIsBoat = (index) => {
+        for (let i = 0; i < haveBoat.length; i++) {
+            if (haveBoat[i].indexOf(index) != -1) {
+                return true;
+            }
+        }
+        return false;
     }
 
 
@@ -113,13 +195,17 @@ export default function Battle() {
                 );
             }
             else {
-                const isSelected = selected.includes(index);
+                const isVisited = setIsVisited(index);
+                const isBoat = setIsBoat(index);
                 row.push(
                     <td
                         key={index}
                         onClick={() => handleClick(index)}
                         style={{
-                            backgroundColor: isSelected ? '#00bcd4' : 'transparent',
+                            // If haven't been visited, always transparent
+                            // Then, do have boat -> RED
+                            //       do not have -> BLUE
+                            backgroundColor: isVisited ? (isBoat ? '#DA291C' : '#00bcd4') : 'transparent',
                             width: '50px',
                             height: '50px',
                             textAlign: 'center',
@@ -135,8 +221,8 @@ export default function Battle() {
 
     return (
         <div className={styles.mainmanu}>
-            <h1 className="text-center">Gaming</h1>
-            <h2 className="text-center">Time for {}</h2>
+            <h1 className="text-left">Naval War Gaming</h1>
+            <h2 className="text-center">It's your turn, {user}</h2>
             <table
                 className="col-sm-9"
                 key={user}

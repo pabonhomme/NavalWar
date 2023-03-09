@@ -2,7 +2,7 @@
  * @brief       The component of add 5 boats foreach player.
  * @author      Ao XIE
  * @date        2023.02.10
- * @version     3.2.0
+ * @version     4.0
  * @copyright   Copyright (c) 2023 XIE Ao. All rights reserved.
  *****************************************************************
  * @attention
@@ -10,6 +10,7 @@
  * @par Modification log:
  * <table>
  * <tr><th>Date        <th>Version  <th>Author    <th>Description 
+ * <tr><td>2023/03/09  <td>4.0      <td>Ao XIE  <td>Send POST of grid when choose
  * <tr><td>2023/03/03  <td>3.2      <td>Ao XIE  <td>Finished but not really
  * <tr><td>2023/02/21  <td>3.1      <td>Ao XIE  <td>Set the information of boat to a state.
  * <tr><td>2023/02/21  <td>3.0      <td>Ao XIE  <td>Code refactoring
@@ -216,7 +217,7 @@ export default function BoatMap() {
 
     const setIsSelected = (index) => {
         for (let i = 0; i < selected.length; i++) {
-            if (selected[i].indexOf(index) !== -1) {
+            if (selected[i].indexOf(index) != -1) {
                 return true;
             }
         }

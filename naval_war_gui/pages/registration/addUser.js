@@ -2,7 +2,7 @@
  * @brief       The player module, which contains an avatar as well as two input fields.
  * @author      Ao XIE
  * @date        2023.02.08
- * @version     1.1.2
+ * @version     2.0
  * @copyright   Copyright (c) 2023 XIE Ao. All rights reserved.
  *****************************************************************
  * @attention
@@ -10,6 +10,7 @@
  * @par Modification log:
  * <table>
  * <tr><th>Date        <th>Version  <th>Author    <th>Description
+ * <tr><td>2023/03/09  <td>2.0      <td>Ao XIE  <td>Delete last name of each player
  * <tr><td>2023/02/08  <td>1,1      <td>Ao XIE  <td>Set the organisation and send infos to parent
  * <tr><td>2023/02/07  <td>1.0      <td>Ao XIE  <td>Creating the initial version
  * </table>
