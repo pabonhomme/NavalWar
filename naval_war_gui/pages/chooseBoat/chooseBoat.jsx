@@ -17,51 +17,53 @@
 
 
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import styles from '../../styles/Home.module.css';
 
 import BoatMap from "./boatMap";
 
+const storedUser1 = "Paul";
+const storedUser2 = "Ao";
 
 export default function ChooseBoat() {
-    /********************************* Test Part */
-    const user1 = "Paul";
-    const user2 = "Ao";
-    /********************************* Test Part */
 
+    const [user, setUser] = useState('');
     const router = useRouter();
-    const [user, setUser] = useState(null);
-    
-    
+
+    useEffect(() => {
+        setUser(storedUser1)
+    }, []);
+
     const onClick = () => {
-        console.log("hello")
-        if (user == user1) {
-            setUser(user2);
-        }
-        else if (user == null){
-            setUser(user1);
+        if (user == storedUser1) {
+            setUser(storedUser2);
         }
         else {
-            router.push('/battle/BattleFiled');
+            router.push('/battle/battleField');
         }
+    }
+
+    const Hello = () => {
+        return (
+            <h1 className="text-center">It's time to get ready!</h1>
+        );
     }
 
     return (
         <form className={styles.mainmanu}>
+            <Hello />
             <h1 className="text-center">
-                Dear {user}, please make your choice!
+                Dear {user}, Please make your choice!
             </h1>
             <br />
-            <BoatMap
-                key={user}
-            />
+            <BoatMap key={user} />
             <br />
             <button
                 type="submit"
                 className="btn btn-primary"
                 style={{ textAlign: 'center' }}
-                onClick={onClick}
+                onClick={onClick} // Have to be there, it's just the function of this button
             >
                 SAVE
             </button>

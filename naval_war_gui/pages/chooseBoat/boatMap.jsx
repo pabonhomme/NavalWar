@@ -28,54 +28,42 @@ import Swal from "sweetalert2";
 //import TypeBoat from "./typeBoat";
 
 class Boat {
-
     constructor(name, size, location, direction) {
         this.name = name;
         this.size = size;
         this.location = location; // Int for the location.
         this.direction = direction;
     }
-
-    // function to get infos for a boat.
-    getBoat() {
-        let infomationForBoat =
-            this.name + ";" + this.size + ";" +
-            this.location + ";" + this.direction + ";" +
-            this.situation;
-        return infomationForBoat;
-
-    }
 };
 
+var Carrier = new Boat("Carrier", 5, 0, null);
+var Battleship = new Boat("Battleship", 4, 0, null);
+var Destroyer = new Boat("Destroyer", 3, 0, null);
+var Submarine = new Boat("Submarine", 3, 0, null);
+var Patrol_Boat = new Boat("Patrol_Boat", 2, 0, null);
+//var listBoat[Carrier, Battleship, Destroyer, Submarine, Patrol_Boat];
+var listBoat = new Array();
+listBoat[0] = Carrier;
+listBoat[1] = Battleship;
+listBoat[2] = Destroyer;
+listBoat[3] = Submarine;
+listBoat[4] = Patrol_Boat;
+
+/**********************************Boat Map Begin ******************************/
+
 export default function BoatMap() {
-
-    var Carrier = new Boat("Carrier", 5, 0, null);
-    var Battleship = new Boat("Battleship", 4, 0, null);
-    var Destroyer = new Boat("Destroyer", 3, 0, null);
-    var Submarine = new Boat("Submarine", 3, 0, null);
-    var Patrol_Boat = new Boat("Patrol_Boat", 2, 0, null);
-
-    //var listBoat[Carrier, Battleship, Destroyer, Submarine, Patrol_Boat];
-    var listBoat = new Array();
-    listBoat[0] = Carrier;
-    listBoat[1] = Battleship;
-    listBoat[2] = Destroyer;
-    listBoat[3] = Submarine;
-    listBoat[4] = Patrol_Boat;
 
     const [selected, setSeleted] = useState('');
     const [dirBoat, setDirBoat] = useState(null);
     const [typeBoat, setTypeBoat] = useState(null);
     const [typeExiste, setTypeExiste] = useState('');
-    const [size, setSize] = useState('');
-
+    const [sizeBoat, setSizeBoat] = useState('');
 
     function splitDigits(num) {
         const tens = Math.floor(num / 10);
         const ones = num % 10;
         return [tens, ones];
     }
-
 
     // For the color of each lattice.
     const handleClick = (index) => {
@@ -106,7 +94,7 @@ export default function BoatMap() {
         /*         else {
                     let [x, y] = splitDigits(index);
                     console.log("tessst");
-                    fetch(`http://localhost:5199/api/Game/putBoat/${x}/${y}/${dirBoat}/${size}`, {
+                    fetch(`http://localhost:5199/api/Game/putBoat/${x}/${y}/${dirBoat}/${sizeBoat}`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -134,7 +122,7 @@ export default function BoatMap() {
                                         table.push(index + j * 10);
                                     }
                                 }
-                                setTypeExiste(typeBoat);
+                                setTypeExiste([...typeExiste, typeBoat]);
                                 setSeleted([...selected, table]); // Replace the single numbers to array of numbers.
                                 // To informing the user that this boat is been placed
                                 Swal.fire({
@@ -195,7 +183,7 @@ export default function BoatMap() {
         }
         else {
             setTypeBoat(index.target.value);
-            setSize(index.target.value);
+            setSizeBoat(listBoat[index.target.value].size);
         } // typeBoat -> order in the list of boat. 
     }
 

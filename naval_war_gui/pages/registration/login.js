@@ -17,15 +17,13 @@
  ******************************************************************
  */
 
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
 
 import 'bootstrap/dist/css/bootstrap.css';
 import styles from '../../styles/Home.module.css';
 import User from "./addUser.js";
 import { Inter } from '@next/font/google'
-import ChooseBoat from "../chooseBoat/chooseBoat";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -44,30 +42,21 @@ export default function Login() {
         setFirsetNameUB(value);
     }
 
-/*  ******* For the users in the location storage
+    /* For the users in the location storage ***/
     const setUsers = () => {
-        useEffect(() => {
-            sessionStorage.setItem('user1', firstNameUA);
-            sessionStorage.setItem('user2', firstNameUB);
-            console.log(sessionStorage.getItem('user1'))
-            console.log(sessionStorage.getItem('user2'))
-
-            window.addEventListener('beforeUnload', function () {
-                sessionStorage.removeItem('user1');
-                sessionStorage.removeItem('user2');
-            })
-        }, []);
-        console.log("hello")
-    } */
+        sessionStorage.setItem('user1', firstNameUA);
+        sessionStorage.setItem('user2', firstNameUB);
+    }
 
     const onSubmit = (event) => {
         event.preventDefault();
-        //setUsers();
+        setUsers();
+        console.log(sessionStorage.getItem('user1'))
+        console.log(sessionStorage.getItem('user2'))
 
         /* TEST PART ************************************/
         router.push('/chooseBoat/chooseBoat/')
-        console.log(firstNameUA);
-        console.log(firstNameUB);
+        
         /* TEST PART ************************************/
 
         /*fetch(`http://localhost:5199/api/Game/start/${firstNameUA}/${firstNameUB}`, {

@@ -27,75 +27,39 @@ export default function Battle() {
     // true -> player 1
     // false -> player 2
     const [selected, setSeleted] = useState('');
-    const [user, setUser] = useState('');
+    const [haveBoat, setHaveBoat] = useState('');
+    const [user, setUser] = useState(true);
 
-    const [mapUser1, setMapUser1] = useState('');
-    const [mapUser2, setMapUser2] = useState('');
 
-    const [response, setResponse] = useState('');
-
-    const setMap1 = () => {
-        let map = getPost();
-        setMapUser1(map);
+    function splitDigits(num) {
+        const tens = Math.floor(num / 10);
+        const ones = num % 10;
+        return [tens, ones];
     }
-
-    const setMap2 = () => {
-        let map = getPost();
-        setMapUser2(map);
-    }
-
-    const sendPost = () => {
-        // TODO: FUNCTION TO SEND THE POST
-    };
-
-    const getPlayer = () => {
-        let playerNow = "Player T_T I don't know who :-(....";
-        return playerNow;
-    }
-
-    const sendPixel = async (event) => {
-        event.preventDefault();
-        const send = await fetch('fight/api', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'applicztion/json'
-            },
-            body: JSON.stringify({
-                getPlayer,
-                user
-            })
-        });
-    }
-    const getUser = () => {
-        // to get if needed to change user of not
-        if (response == false) {
-            return false;
-        }
-    }
-
-    const getPost = () => {
-        fetch('')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(object => {
-                console.log("This time u get as follow:");
-                console.log(object);
-            })
-            .catch(error => {
-                console.error('There was a problem with the fetch operation:', error);
-            });
-    }
-
-    /*     const handleClick = (index) => {
-            setSeleted([...selected, index]);
-        } */
 
     const handleClick = (index) => {
-        setSeleted(index);
+        var [x, y] = splitDigits(index);
+        fetch('http://localhost:5199/api/Game/shot/${x}/${y}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then((response) => {
+            if(!response.ok) {
+                alert("Something wrong");
+            }
+            else{
+                setSeleted(index);
+                // to set the situation of boat
+                for (let i=0; i<10; i++){
+                    for (let j=0; j<10 ; j++){
+                        // Set those in differet color
+                        /************************* IMPORTANT */
+                    }
+                }
+            }
+        })
     }
 
     const someoneWin = () => {
@@ -172,9 +136,10 @@ export default function Battle() {
     return (
         <div className={styles.mainmanu}>
             <h1 className="text-center">Gaming</h1>
-            <h2 className="text-center">Time for {getPlayer()}</h2>
+            <h2 className="text-center">Time for {}</h2>
             <table
                 className="col-sm-9"
+                key={user}
                 style={{ borderCollapse: 'collapse' }}
             >
                 <tbody key={user}>{table}</tbody>
