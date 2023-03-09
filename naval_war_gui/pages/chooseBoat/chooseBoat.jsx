@@ -25,77 +25,47 @@ import BoatMap from "./boatMap";
 
 
 export default function ChooseBoat() {
+    /********************************* Test Part */
+    const user1 = "Paul";
+    const user2 = "Ao";
+    /********************************* Test Part */
+
     const router = useRouter();
-    // For the times of user.
-    // 0 -> 4 user1
-    // 5 -> 9 user2
-    // 10 -> done
-    const [user, setUser] = useState(0);
-    const [boat, setBoat] = useState('');
-
-    function splitDigits(num) {
-        const tens = Math.floor(num / 10);
-        const ones = num % 10;
-        return [tens, ones];
-    }
-
-    function onSubmit(event) {
-        /* let [x, y] = splitDigits(boat.location);
-        console.log("tessst");
-        event.preventDefault();
-        fetch(`http://localhost:5199/api/Game/putBoat/${x}/${y}/${boat.direction}/${boat.size}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    return response.text().then((errorMessage) => {
-                        throw new Error(errorMessage);
-                    });
-                }
-            })
-            .catch((error) => {
-                alert(error.message);
-            }); */
-    }
-
-
-
-    const getUser = () => {
-        let userNow = "user1";
-        if (4 < user && user <= 9) {
-            userNow = "user2";
+    const [user, setUser] = useState(null);
+    
+    
+    const onClick = () => {
+        console.log("hello")
+        if (user == user1) {
+            setUser(user2);
         }
-        if (user == 10) {
-            userNow = "Done";
-            // After the two users finished their boat, 
-            // turn to page of game.
-            router.push('../battle/battleField');
+        else if (user == null){
+            setUser(user1);
         }
-        return userNow;
+        else {
+            router.push('/battle/BattleFiled');
+        }
     }
 
-    const ShowUser = () => {
-        let userNow = getUser();
-        return (
-            <h1 className="text-center">
-                {userNow}
-            </h1>
-        );
-    }
-
-    var userNow = getUser();
     return (
-        <div className={styles.mainmanu}>
-            <ShowUser />
+        <form className={styles.mainmanu}>
+            <h1 className="text-center">
+                Dear {user}, please make your choice!
+            </h1>
             <br />
             <BoatMap
-                key={userNow}
-                setBoat={onSubmit}
-                user={user}
+                key={user}
             />
-        </div>
+            <br />
+            <button
+                type="submit"
+                className="btn btn-primary"
+                style={{ textAlign: 'center' }}
+                onClick={onClick}
+            >
+                SAVE
+            </button>
+            <br />
+        </form>
     )
 }

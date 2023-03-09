@@ -17,18 +17,21 @@
  ******************************************************************
  */
 
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import Link from "next/link";
-import { useState } from "react";
 
 import 'bootstrap/dist/css/bootstrap.css';
 import styles from '../../styles/Home.module.css';
-
-
 import User from "./addUser.js";
+import { Inter } from '@next/font/google'
+import ChooseBoat from "../chooseBoat/chooseBoat";
+
+const inter = Inter({ subsets: ['latin'] })
 
 export default function Login() {
 
+    const router = useRouter();
 
     // FUNCTIONS TO GET INFOMATIONS
     const [firstNameUA, setFirsetNameUA] = useState('');
@@ -40,17 +43,34 @@ export default function Login() {
     const handleFB = (value) => {
         setFirsetNameUB(value);
     }
-    const handleLA = (value) => {
-        setLastNameUA(value);
-    }
-    const handleLB = (value) => {
-        setLastNameUB(value);
-    }
 
-    function onSubmit(event) {
-        console.log("tessst");
+/*  ******* For the users in the location storage
+    const setUsers = () => {
+        useEffect(() => {
+            sessionStorage.setItem('user1', firstNameUA);
+            sessionStorage.setItem('user2', firstNameUB);
+            console.log(sessionStorage.getItem('user1'))
+            console.log(sessionStorage.getItem('user2'))
+
+            window.addEventListener('beforeUnload', function () {
+                sessionStorage.removeItem('user1');
+                sessionStorage.removeItem('user2');
+            })
+        }, []);
+        console.log("hello")
+    } */
+
+    const onSubmit = (event) => {
         event.preventDefault();
-        fetch(`http://localhost:5199/api/Game/start/${firstNameUA}/${firstNameUB}`, {
+        //setUsers();
+
+        /* TEST PART ************************************/
+        router.push('/chooseBoat/chooseBoat/')
+        console.log(firstNameUA);
+        console.log(firstNameUB);
+        /* TEST PART ************************************/
+
+        /*fetch(`http://localhost:5199/api/Game/start/${firstNameUA}/${firstNameUB}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -63,20 +83,15 @@ export default function Login() {
                     });
                 }
 
-                window.location.href = "http://localhost:3000/chooseBoat/chooseBoat";
+                router.push('/chooseBoat/chooseBoat');
 
             })
             .catch((error) => {
                 alert(error.message);
-            });
+            }); */
+
     }
 
-    //FUNCTIONS TO SEND POST
-    {/* <Link href={"../chooseBoat/chooseBoat"}>
-                    ≈
-                </Link> */}
-
-    //onSubmit={handleSubmit}
     return (
         <div className={styles.mainmanu}>
             <form className="container" onSubmit={onSubmit}>

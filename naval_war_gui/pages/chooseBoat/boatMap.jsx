@@ -20,8 +20,6 @@
  ******************************************************************
  */
 
-// 1 -> 5
-// 4 3 3 2
 import React from "react";
 
 import 'bootstrap/dist/css/bootstrap.css';
@@ -31,12 +29,11 @@ import Swal from "sweetalert2";
 
 class Boat {
 
-    constructor(name, size, location, direction, situation) {
+    constructor(name, size, location, direction) {
         this.name = name;
         this.size = size;
         this.location = location; // Int for the location.
         this.direction = direction;
-        this.situation = situation; // True -> Existe already;
     }
 
     // function to get infos for a boat.
@@ -50,13 +47,13 @@ class Boat {
     }
 };
 
-export default function BoatMap({ setBoat, user }) {
+export default function BoatMap() {
 
-    var Carrier = new Boat("Carrier", 5, 0, null, false);
-    var Battleship = new Boat("Battleship", 4, 0, null, false);
-    var Destroyer = new Boat("Destroyer", 3, 0, null, false);
-    var Submarine = new Boat("Submarine", 3, 0, null, false);
-    var Patrol_Boat = new Boat("Patrol_Boat", 2, 0, null, false);
+    var Carrier = new Boat("Carrier", 5, 0, null);
+    var Battleship = new Boat("Battleship", 4, 0, null);
+    var Destroyer = new Boat("Destroyer", 3, 0, null);
+    var Submarine = new Boat("Submarine", 3, 0, null);
+    var Patrol_Boat = new Boat("Patrol_Boat", 2, 0, null);
 
     //var listBoat[Carrier, Battleship, Destroyer, Submarine, Patrol_Boat];
     var listBoat = new Array();
@@ -67,10 +64,8 @@ export default function BoatMap({ setBoat, user }) {
     listBoat[4] = Patrol_Boat;
 
     const [selected, setSeleted] = useState('');
-    const [infoBoat, setInfoBoat] = useState('');
     const [dirBoat, setDirBoat] = useState(null);
     const [typeBoat, setTypeBoat] = useState(null);
-    const [localBoat, setLocalBoat] = useState(null);
     const [typeExiste, setTypeExiste] = useState('');
     const [size, setSize] = useState('');
 
@@ -108,53 +103,85 @@ export default function BoatMap({ setBoat, user }) {
                 confirmButtonText: 'Fine'
             });
         }
-        else 
-        let [x, y] = splitDigits(index);
-        console.log("tessst");
-        event.preventDefault();
-        fetch(`http://localhost:5199/api/Game/putBoat/${x}/${y}/${dirBoat}/${size}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
+        /*         else {
+                    let [x, y] = splitDigits(index);
+                    console.log("tessst");
+                    fetch(`http://localhost:5199/api/Game/putBoat/${x}/${y}/${dirBoat}/${size}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                        .then((response) => {
+                            if (!response.ok) {
+                                Swal.fire({
+                                    title: 'Whoops!',
+                                    text: 'U can not put your boat here!',
+                                    icon: 'error',
+                                    confirmButtonText: 'Fine'
+                                });
+                            }
+                            else {
+                                // TO change colour of the grid of a boat
+                                var table = [];
+                                if (dirBoat == "HORIZONTAL") {
+                                    for (let i = 0; i < listBoat[typeBoat].size; i++) {
+                                        table.push(index + i);
+                                    }
+                                }
+                                else {
+                                    for (let j = 0; j < listBoat[typeBoat].size; ++j) {
+                                        table.push(index + j * 10);
+                                    }
+                                }
+                                setTypeExiste(typeBoat);
+                                setSeleted([...selected, table]); // Replace the single numbers to array of numbers.
+                                // To informing the user that this boat is been placed
+                                Swal.fire({
+                                    position: 'top-end',
+                                    title: 'Lovely!',
+                                    text: 'You have one more boat now!',
+                                    icon: 'success',
+                                    showConfirmButton: false,
+                                });
+                            }
+        
+                        }
+        
+        
+                        )
+                        .catch((error) => {
+                            alert(error.message);
+                        }); */
+
+        // TEST TEST ***************************************** TEST PART
+        else {
+            // TO change colour of the grid of a boat
+            var table = [];
+            if (dirBoat == "HORIZONTAL") {
+                for (let i = 0; i < listBoat[typeBoat].size; i++) {
+                    table.push(index + i);
+                }
             }
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    Swal.fire({
-                        title: 'Whoops!',
-                        text: 'U can not put your boat here!',
-                        icon: 'error',
-                        confirmButtonText: 'Fine'
-                    });
+            else {
+                for (let j = 0; j < listBoat[typeBoat].size; ++j) {
+                    table.push(index + j * 10);
                 }
-                else {
-                    
-                        var table = [];
-                        if (dirBoat == "Hor") {
-                            for (let i = 0; i < listBoat[typeBoat].size; i++) {
-                                table.push(index + i);
-                            }
-                        }
-                        else {
-                            for (let j = 0; j < listBoat[typeBoat].size; ++j) {
-                                table.push(index + j * 10);
-                            }
-                        }
-                        setLocalBoat(index);
-                        //setSeleted([...selected, index]);
-                        setSeleted([...selected, table]); // Replace the single numbers to array of numbers.
-                        setLocalBoat(index);
-                    }
-
-                }
-
-
-            })
-            .catch((error) => {
-                alert(error.message);
+            }
+            setTypeExiste([...typeExiste, typeBoat]);
+            setSeleted([...selected, table]); // Replace the single numbers to array of numbers.
+            // To informing the user that this boat is been placed
+            Swal.fire({
+                position: 'top-end',
+                title: 'Lovely!',
+                text: 'You have one more boat now!',
+                icon: 'success',
+                showConfirmButton: false,
             });
-        //}
+        }
+        // TEST TEST ***************************************** TEST PART
     }
+
 
     // To store the type in the instance.
     const handleType = (index) => {
@@ -166,9 +193,9 @@ export default function BoatMap({ setBoat, user }) {
                 confirmButtonText: 'Fine'
             });
         }
-        else { 
+        else {
             setTypeBoat(index.target.value);
-            setSize(index.target.value); 
+            setSize(index.target.value);
         } // typeBoat -> order in the list of boat. 
     }
 
@@ -187,44 +214,8 @@ export default function BoatMap({ setBoat, user }) {
         }
     }
 
-    // Use this to submit all the informations at once.
-    const submitInfos = () => {
-        if (typeBoat == null || dirBoat == null || localBoat == null) {
-            Swal.fire({
-                title: 'Whoops!',
-                text: 'ATTENTION TO YOUR BOAT!',
-                icon: 'error',
-                confirmButtonText: 'Fine'
-            });
-        }
-        else if (typeExiste.includes(typeBoat)) {
-            Swal.fire({
-                title: 'Whoops!',
-                text: 'You have this type of boat already!',
-                icon: 'error',
-                confirmButtonText: 'Fine'
-            });
-        }
-        else {
-            listBoat[typeBoat].direction = dirBoat;
-            listBoat[typeBoat].location = localBoat;
-            listBoat[typeBoat].situation = true;
-            setInfoBoat([...infoBoat, listBoat[typeBoat]]);
-            setTypeExiste([...typeExiste, typeBoat]);
-            setBoat(listBoat[typeBoat]);
-            Swal.fire({
-                position: 'top-end',
-                title: 'Lovely!',
-                text: 'You have one more boat now!',
-                icon: 'success',
-                showConfirmButton: false,
-            });
-            //this.forceUpdate();
-            //window.location.reload();
-            // After the 
-        }
-    }
 
+    // To get the options of boat
     const optionBoat = [];
     for (let i = 0; i < 5; i++) {
         optionBoat.push(
@@ -279,10 +270,6 @@ export default function BoatMap({ setBoat, user }) {
                 );
             }
             else {
-                /* const isSelected = selected.forEach(element => {
-                    element.includes(index);
-                }); */
-                //const isSelected = selected.includes(index);
                 const isSelected = setIsSelected(index);
                 row.push(
                     <td
@@ -334,20 +321,9 @@ export default function BoatMap({ setBoat, user }) {
                     style={{ backgroundColor: 'transparent' }}
                 >
                     <option key="null" defaultValue>DIRECTION</option>
-                    <option key="HORISONTAL" value="HORISONTAL">Horizontal</option>
+                    <option key="HORIZONTAL" value="HORIZONTAL">Horizontal</option>
                     <option key="VERTICAL" value="VERTICAL">Vertical</option>
                 </select>
-
-                <br />
-                <button
-                    onClick={submitInfos}
-                    type="submit"
-                    className="btn btn-primary"
-                    style={{ textAlign: 'center' }}
-                >
-                    SAVE
-                </button>
-                <br />
             </div>
         </div>
     );
