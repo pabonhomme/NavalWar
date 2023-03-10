@@ -3,6 +3,7 @@
     /// <summary>
     /// Define a Cell
     /// </summary>
+    [Serializable]
     public class CellDTO
     {
         public Tuple<int, int> Positions { get; set; }
@@ -18,24 +19,26 @@
             Positions = positions;
         }
 
+        public CellDTO() { }
+
         /// <summary>
         /// Indicates if the cell contains a ship
         /// </summary>
         /// <returns>true if contains a ship</returns>
-        public bool isContainingAShip()
+        public bool IsContainingAShip()
         {
-            return Ship!= null;
+            return Ship != null;
         }
 
         /// <summary>
         /// Fires a missile on the cell
         /// </summary>
-        public void visit()
+        public void Visit()
         {
             isVisited= true;
-            if (isContainingAShip())
+            if (IsContainingAShip())
             {
-                Ship.addCellTouched();
+                Ship.AddCellTouched();
             }
         }
 
@@ -43,25 +46,29 @@
         /// Indicates if the cell contains a touched boat
         /// </summary>
         /// <returns></returns>
-        public bool isTouched()
+        public bool IsTouched()
         {
-            return isContainingAShip() && isVisited;
+            return IsContainingAShip() && isVisited;
         }
 
         /// <summary>
         /// Indicates if the cell contains a sunk boat
         /// </summary>
         /// <returns></returns>
-        public bool isSunk()
+        public bool IsSunk()
         {
-            return Ship.isSunk();
+            return Ship.IsSunk();
         }
 
         public override string ToString()
         {
-            if (!isVisited)
+            if (!isVisited && !IsTouched())
             {
                 return "O";
+            }
+            else if (isVisited && !IsTouched())
+            {
+                return "x";
             }
             else return "X";
         }

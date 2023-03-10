@@ -10,19 +10,31 @@ using System.Threading.Tasks;
 
 namespace NavalWar.DTO
 {
+    [Serializable]
     public class BoardDTO
     {
+        [NonSerialized]
         public static readonly int BoardSize = 10;
 
-        public static readonly List<int> SizeShips = new List<int> { 5, 4, 3, 3, 2 };
+        [NonSerialized]
+        public static readonly List<int> SizeShips = new List<int> { 2 };
 
+        [NonSerialized]
         public static readonly int Nb_Boat = SizeShips.Count();
 
-        public List<ShipDTO> Ships = new List<ShipDTO>();
+        public List<ShipDTO> Ships { get; set; }
 
-        public readonly List<CellDTO> Grid= new List<CellDTO>();
+        public List<CellDTO> Grid { get; set; }
         public BoardDTO()
         {
+            Ships = new List<ShipDTO>();
+            Grid = new List<CellDTO>();
+        }
+
+        public BoardDTO(int id)
+        {
+            Ships = new List<ShipDTO>();
+            Grid = new List<CellDTO>();
             CreateGrid();
         }
 
@@ -43,7 +55,7 @@ namespace NavalWar.DTO
         /// <param name="row"></param>
         /// <param name="column"></param>
         /// <returns>Cell if found, null otherwise</returns>
-        public CellDTO getCell(int row, int column)
+        public CellDTO GetCell(int row, int column)
         {
             if((row >= 0 && row < BoardSize) && (column >= 0 && column < BoardSize))
             {
@@ -64,12 +76,12 @@ namespace NavalWar.DTO
         /// <param name="raw"></param>
         /// <param name="column"></param>
         /// <returns>true if contains a ship</returns>
-        public bool isContainingAShip(int raw, int column)
+        public bool IsContainingAShip(int raw, int column)
         {
-            CellDTO cell = getCell(raw, column);
+            CellDTO cell = GetCell(raw, column);
             if(cell != null)
             {
-                return cell.isContainingAShip();
+                return cell.IsContainingAShip();
             }
             return false;
         }
@@ -82,14 +94,14 @@ namespace NavalWar.DTO
         /// <param name="orientation">orientation of the boat</param>
         /// <param name="size">size of the boat</param>
         /// <returns>true if we can place the boat</returns>
-        public bool isFree(int row, int column, OrientationDTO orientation, int size)
+        public bool IsFree(int row, int column, OrientationDTO orientation, int size)
         {
             // First case : HORIZONTAL
             if(orientation == OrientationDTO.Horizontal)
             {
                 for(int bisColumn = column; bisColumn <= column + size - 1; bisColumn++)
                 {
-                    if((isContainingAShip(row, column) || bisColumn >= BoardSize)){
+                    if((IsContainingAShip(row, column) || bisColumn >= BoardSize)){
                         return false;
                     }
                 }
@@ -100,7 +112,7 @@ namespace NavalWar.DTO
             {
                 for(int bisRow = row; bisRow <= row + size - 1; bisRow++)
                 {
-                    if(isContainingAShip(row, column) || bisRow >= BoardSize)
+                    if(IsContainingAShip(row, column) || bisRow >= BoardSize)
                     {
                         return false;
                     }
@@ -109,15 +121,15 @@ namespace NavalWar.DTO
             }
         }
 
-        public bool putBoat(ShipDTO ship)
+        public bool PutBoat(ShipDTO ship)
         {
-            if(isFree(ship.Positions.Item1, ship.Positions.Item2, ship.Orientation, ship.Size)) // Verify if it is free for the boat
+            if(IsFree(ship.Positions.Item1, ship.Positions.Item2, ship.Orientation, ship.Size)) // Verify if it is free for the boat
             {
                 if(ship.Orientation == OrientationDTO.Horizontal)
                 {
                     for(int newColumn = ship.Positions.Item2; newColumn <= ship.Positions.Item2 + ship.Size - 1; newColumn++)
                     {
-                        getCell(ship.Positions.Item1, newColumn).Ship = ship;
+                        GetCell(ship.Positions.Item1, newColumn).Ship = ship;
                     }
                     Ships.Add(ship);
                     return true; // if the ship is well placed
@@ -126,7 +138,7 @@ namespace NavalWar.DTO
                 {
                     for(int newRow = ship.Positions.Item1; newRow <= ship.Positions.Item1 + ship.Size - 1; newRow++)
                     {
-                        getCell(newRow, ship.Positions.Item2).Ship = ship;
+                        GetCell(newRow, ship.Positions.Item2).Ship = ship;
                     }
                     Ships.Add(ship);
                     return true; // if the ship is well placed 
@@ -138,11 +150,11 @@ namespace NavalWar.DTO
         /// <summary>
         /// Delete all the boats so the player can replace them
         /// </summary>
-        public void resetShips()
+        public void ResetShips()
         {
             foreach(CellDTO cell in Grid)
             {
-                if (cell.isContainingAShip())
+                if (cell.IsContainingAShip())
                 {
                     cell.Ship = null;
                 }
@@ -156,9 +168,9 @@ namespace NavalWar.DTO
         /// <param name="row"></param>
         /// <param name="column"></param>
         /// <returns></returns>
-        public bool isVisited(int row, int column)
+        public bool IsVisited(int row, int column)
         {
-            CellDTO Cell = getCell(row, column);
+            CellDTO Cell = GetCell(row, column);
             if(Cell != null)
             {
                 return Cell.isVisited;
@@ -172,12 +184,12 @@ namespace NavalWar.DTO
         /// <param name="row"></param>
         /// <param name="column"></param>
         /// <returns></returns>
-        public bool isTouched(int row, int column)
+        public bool IsTouched(int row, int column)
         {
-            CellDTO Cell = getCell(row, column);
+            CellDTO Cell = GetCell(row, column);
             if (Cell != null)
             {
-                return Cell.isTouched();
+                return Cell.IsTouched();
             }
             return false;
         }
@@ -188,12 +200,17 @@ namespace NavalWar.DTO
         /// <param name="row"></param>
         /// <param name="column"></param>
         /// <returns></returns>
-        public void visit(int row, int column)
+        public void Visit(int row, int column)
         {
-            CellDTO Cell = getCell(row, column);
+            CellDTO Cell = GetCell(row, column);
             if (Cell != null)
             {
-                Cell.visit();
+                Cell.Visit();
+                ShipDTO shipCell = Cell.Ship; // We get the boat in the visitedCell so we can increment the number of dead cell in the list of ships
+                if(IsContainingAShip(row, column))
+                {
+                    Ships.FirstOrDefault(s => s.Positions.Item1 == shipCell.Positions.Item1 && s.Positions.Item2 == shipCell.Positions.Item2).AddCellTouched();
+                }
             }
         }
 
@@ -201,12 +218,12 @@ namespace NavalWar.DTO
         /// Get all the sunk ships
         /// </summary>
         /// <returns></returns>
-        public int numberShipsSunk()
+        public int NumberShipsSunk()
         {
             int i = 0;
             foreach(ShipDTO ship in Ships)
             {
-                if (ship.isSunk())
+                if (ship.IsSunk())
                 {
                     i++;
                 }
@@ -218,9 +235,9 @@ namespace NavalWar.DTO
         /// Indicates if a board is completely sunk
         /// </summary>
         /// <returns>true if all ships are sunk</returns>
-        public bool isBoardSunk()
+        public bool IsBoardSunk()
         {
-            return numberShipsSunk() == Nb_Boat;
+            return NumberShipsSunk() == Nb_Boat;
         }
 
         public override string ToString()
@@ -230,7 +247,7 @@ namespace NavalWar.DTO
             {
                 for(int column = 0; column < BoardSize; column++)
                 {
-                    stringBoard += getCell(row, column).ToString();
+                    stringBoard += GetCell(row, column).ToString();
                 }
                 stringBoard+= "\n";
             }

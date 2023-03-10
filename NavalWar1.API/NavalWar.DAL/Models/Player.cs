@@ -16,7 +16,7 @@ namespace NavalWar.DAL.Models
 
         public int Id { get; set; }
         public string Pseudo { get; set; }
-
+        public string Board { get; set; }
         public int Score { get; set; }
     }
 }

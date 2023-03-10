@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using NavalWar.BL;
+using NavalWar.BL.Interfaces;
 using NavalWar.DAL;
 using NavalWar.DAL.Interfaces;
 
@@ -21,6 +22,9 @@ builder.Services.AddDbContext<NavalWarDBContext>(options =>
 builder.Services.AddScoped<IPlayerService, PlayerService>();
 builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
 
+builder.Services.AddScoped<IGameService, GameService>();
+builder.Services.AddScoped<IGameRepository, GameRepository>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -33,6 +37,14 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseRouting();
+
+// Allow CORS
+app.UseCors(builder => builder
+    .WithOrigins("http://localhost:3000") // Add your allowed origins here
+    .AllowAnyMethod()
+    .AllowAnyHeader());
 
 app.MapControllers();
 

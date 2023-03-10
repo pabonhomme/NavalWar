@@ -1,4 +1,5 @@
-﻿using NavalWar.DAL.Models;
+﻿using NavalWar.DAL.Extensions;
+using NavalWar.DAL.Models;
 using NavalWar.DTO;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ namespace DAL.Extensions
                 Id = dto.Id,
                 Pseudo = dto.Pseudo,
                 Score= dto.Score,
+                Board = dto.Board.toString(),
             };
         }
 
@@ -38,6 +40,7 @@ namespace DAL.Extensions
                 Id = entity.Id,
                 Pseudo = entity.Pseudo,
                 Score = entity.Score,
+                Board = entity.Board.toDTO(),
             };
         }
     }
