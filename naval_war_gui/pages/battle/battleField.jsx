@@ -82,14 +82,14 @@ export default function Battle() {
             const visitedItems = game.p1.board.grid.filter((gridItem) => gridItem.isVisited);
             const visitedItemsPositions = visitedItems.map((visitedItem) => visitedItem.positions);
             visitedItemsPositions.map((position) => {
-                tableVisited.push((position.item1 + 1) * 10 + (position.item2 + 1));
+                tableVisited.push(`${position.item1+1};${position.item2+1}`);
             });
 
             // for SHIP
             const shipItems = game.p1.board.grid.filter((gridItem) => gridItem.ship);
             const shipItemsPositions = shipItems.map((shipItem) => shipItem.positions);
             shipItemsPositions.map((position) => {
-                tableBoat.push((position.item1 + 1) * 10 + (position.item2 + 1));
+                tableBoat.push(`${position.item1+1};${position.item2+1}`);
             });
         }
         if (game.currentPlayer === game.p1.id) {
@@ -97,14 +97,14 @@ export default function Battle() {
             const visitedItems = game.p2.board.grid.filter((gridItem) => gridItem.isVisited);
             const visitedItemsPositions = visitedItems.map((visitedItem) => visitedItem.positions);
             visitedItemsPositions.map((position) => {
-                tableVisited.push((position.item1 + 1) * 10 + (position.item2 + 1));
+                tableVisited.push(`${position.item1+1};${position.item2+1}`);
             });
 
             // for SHIP
             const shipItems = game.p2.board.grid.filter((gridItem) => gridItem.ship);
             const shipItemsPositions = shipItems.map((shipItem) => shipItem.positions);
             shipItemsPositions.map((position) => {
-                tableBoat.push((position.item1 + 1) * 10 + (position.item2 + 1));
+                tableBoat.push(`${position.item1+1};${position.item2+1}`);
             });
         }
         setVisited(tableVisited);
@@ -141,9 +141,11 @@ export default function Battle() {
                 setGame(response);
                 setNbRound(1);
 
-                setTimeout(() => {
-                    changerUser();
-                }, 1000);
+                if(!response.hasTouched){
+                    setTimeout(() => {
+                        changerUser();
+                    }, 1000);
+                }
 
                 // To get the turn 
             }).catch((error) => {
@@ -170,10 +172,9 @@ export default function Battle() {
     };
 
 
-    function splitDigits(num) {
-        const y = num % 10;
-        const x = (num - y) / 10;
-        return [x, y]
+    function splitDigits(str) {
+        const [x, y] = str.split(";").map(coord => parseInt(coord));
+        return [x, y];
     }
 
     const someoneWin = () => {
@@ -220,7 +221,7 @@ export default function Battle() {
     for (let i = 0; i < 11; i++) {
         const row = [];
         for (let j = 0; j < 11; j++) {
-            const index = 10 * i + j;
+            const index = `${i};${j}`;
             if (i == 0) {
                 row.push(
                     <td
