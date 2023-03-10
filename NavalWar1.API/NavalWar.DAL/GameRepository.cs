@@ -43,17 +43,21 @@ namespace NavalWar.DAL
             try
             {
                 Game game = _dbContext.Games.FirstOrDefault(g => g.Id == id);
-                PlayerDTO player1 = _playerRepository.Get(game.p1);
-                PlayerDTO player2 = _playerRepository.Get(game.p2);
-                GameDTO gameDTO = game.ToDTO();
-                gameDTO.p1 = player1;
-                gameDTO.p2 = player2;
-                return gameDTO;
+                if(game != null)
+                {
+                    PlayerDTO player1 = _playerRepository.Get(game.p1);
+                    PlayerDTO player2 = _playerRepository.Get(game.p2);
+                    GameDTO gameDTO = game.ToDTO();
+                    gameDTO.p1 = player1;
+                    gameDTO.p2 = player2;
+                    return gameDTO;
+                }
             }
             catch (Exception ex)
             {
                 throw;
             }
+            return null;
         }
         #endregion
 

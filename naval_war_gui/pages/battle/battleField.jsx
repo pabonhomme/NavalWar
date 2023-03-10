@@ -23,6 +23,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { useState, useEffect } from 'react';
 import styles from '../../styles/Home.module.css';
 import Swal from "sweetalert2";
+import { useRouter } from "next/router";
+
 
 export default function Battle() {
 
@@ -31,6 +33,8 @@ export default function Battle() {
     const [visited, setVisited] = useState([]);
     const [haveBoat, setHaveBoat] = useState([]);
     const [nbRound, setNbRound] = useState(0);
+    const router = useRouter();
+
 
 
     useEffect(() => {
@@ -191,6 +195,19 @@ export default function Battle() {
               no-repeat
             `
         })
+        fetch('http://localhost:5199/api/Game/', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((response) => {
+            setTimeout(() => {
+                router.push('/');
+            }, 1000);
+
+        }).catch((error) => {
+                console.log(error.message);
+            });
     }
 
     /* const setIsVisited = (index) => {

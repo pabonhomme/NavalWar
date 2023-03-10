@@ -97,6 +97,8 @@ namespace NavalWar.BL
         /// <returns></returns>
         public bool Remove(GameDTO game)
         {
+            _playerService.Remove(game.p1);
+            _playerService.Remove(game.p2);
             return _gameRepository.Remove(game);
         }
         #endregion

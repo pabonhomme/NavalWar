@@ -124,14 +124,14 @@ namespace NavalWar.API.Controllers
         [Route("")]
         public ActionResult Delete()
         {
-            var playerDTO = Get();
+            var gameDTO = Get();
 
-            if (playerDTO is null)
+            if (gameDTO is null)
             {
                 return NotFound();
             }
 
-            var state = _gameService.Remove(playerDTO);
+            var state = _gameService.Remove(gameDTO);
             return Ok(state);
         }
         #endregion
