@@ -28,25 +28,57 @@ import BoatMap from "./boatMap";
 
 export default function ChooseBoat() {
 
-    const storedUser1 = sessionStorage.getItem('user1');
-    const storedUser2 = sessionStorage.getItem('user2');
 
     const [user, setUser] = useState('');
     const router = useRouter();
+    const [storedUser1, setStoredUser1] = useState('');
+    const [storedUser2, setStoredUser2] = useState('');
+
+
+    // Set the first player
+    useEffect(() => {
+        fetch(`http://localhost:5199/api/Game/`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((response) => {
+            return response.json();
+          })
+          .then((gameData) => {
+            
+            setStoredUser1(gameData.p1);
+            setStoredUser2(gameData.p2);           
+            
+          })
+        // if (storedUser1 != null && storedUser2 != null) {
+        //     setUser(storedUser1);
+        // }
+    }, [])
 
     useEffect(() => {
-
-        if (storedUser1 != null && storedUser2 != null) {
-            setUser(storedUser1);
-        }
-    }, [])
+        setUser(storedUser1);
+        console.log(user);
+    }, [storedUser1])
 
     const onClick = (event) => {
         event.preventDefault();
         if (user == storedUser1) {
             setUser(storedUser2);
+            fetch('http://localhost:5199/api/Game/changeTurn', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
         }
         else {
+            fetch('http://localhost:5199/api/Game/changeTurn', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
             router.push('/battle/battleField');
         }
     }
@@ -56,10 +88,10 @@ export default function ChooseBoat() {
         <form className={styles.mainmanu}>
             <h1 className="text-center">It's time to get ready!</h1>
             <h1 className="text-center">
-                Dear {user}, Please make your choice!
+                Dear {user.pseudo}, Please make your choice!
             </h1>
             <br />
-            <BoatMap key={user} />
+            <BoatMap key={user.pseudo} />
             <br />
             <button
                 type="submit"

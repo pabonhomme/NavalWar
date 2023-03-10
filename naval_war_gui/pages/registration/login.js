@@ -43,24 +43,10 @@ export default function Login() {
         setFirsetNameUB(value);
     }
 
-    /* For the users in the location storage ***/
-    const setUsers = () => {
-        sessionStorage.setItem('user1', firstNameUA);
-        sessionStorage.setItem('user2', firstNameUB);
-    }
-
     const onSubmit = (event) => {
         event.preventDefault();
-        setUsers();
-        console.log(sessionStorage.getItem('user1'))
-        console.log(sessionStorage.getItem('user2'))
 
-        /* TEST PART ************************************/
-        router.push('/chooseBoat/chooseBoat/')
-        
-        /* TEST PART ************************************/
-
-        /*fetch(`http://localhost:5199/api/Game/start/${firstNameUA}/${firstNameUB}`, {
+        fetch(`http://localhost:5199/api/Game/start/${firstNameUA}/${firstNameUB}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -78,7 +64,7 @@ export default function Login() {
             })
             .catch((error) => {
                 alert(error.message);
-            }); */
+            });
 
     }
 

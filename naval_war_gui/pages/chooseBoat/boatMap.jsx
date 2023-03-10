@@ -92,83 +92,59 @@ export default function BoatMap() {
                 confirmButtonText: 'Fine'
             });
         }
-        /*         else {
-                    let [x, y] = splitDigits(index);
-                    console.log("tessst");
-                    fetch(`http://localhost:5199/api/Game/putBoat/${x}/${y}/${dirBoat}/${sizeBoat}`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                        .then((response) => {
-                            if (!response.ok) {
-                                Swal.fire({
-                                    title: 'Whoops!',
-                                    text: 'U can not put your boat here!',
-                                    icon: 'error',
-                                    confirmButtonText: 'Fine'
-                                });
-                            }
-                            else {
-                                // TO change colour of the grid of a boat
-                                var table = [];
-                                if (dirBoat == "HORIZONTAL") {
-                                    for (let i = 0; i < listBoat[typeBoat].size; i++) {
-                                        table.push(index + i);
-                                    }
-                                }
-                                else {
-                                    for (let j = 0; j < listBoat[typeBoat].size; ++j) {
-                                        table.push(index + j * 10);
-                                    }
-                                }
-                                setTypeExiste([...typeExiste, typeBoat]);
-                                setSeleted([...selected, table]); // Replace the single numbers to array of numbers.
-                                // To informing the user that this boat is been placed
-                                Swal.fire({
-                                    position: 'top-end',
-                                    title: 'Lovely!',
-                                    text: 'You have one more boat now!',
-                                    icon: 'success',
-                                    showConfirmButton: false,
-                                });
-                            }
-        
-                        }
-        
-        
-                        )
-                        .catch((error) => {
-                            alert(error.message);
-                        }); */
-
-        // TEST TEST ***************************************** TEST PART
         else {
-            // TO change colour of the grid of a boat
-            var table = [];
-            if (dirBoat == "HORIZONTAL") {
-                for (let i = 0; i < listBoat[typeBoat].size; i++) {
-                    table.push(index + i);
+            let [x, y] = splitDigits(index);
+            console.log("tessst");
+            fetch(`http://localhost:5199/api/Game/putBoat/${x-1}/${y-1}/${dirBoat}/${sizeBoat}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
                 }
-            }
-            else {
-                for (let j = 0; j < listBoat[typeBoat].size; ++j) {
-                    table.push(index + j * 10);
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        Swal.fire({
+                            title: 'Whoops!',
+                            text: 'U can not put your boat here!',
+                            icon: 'error',
+                            confirmButtonText: 'Fine'
+                        });
+                    }
+                    else {
+                        // TO change colour of the grid of a boat
+                        var table = [];
+                        if (dirBoat == "HORIZONTAL") {
+                            for (let i = 0; i < listBoat[typeBoat].size; i++) {
+                                table.push(index + i);
+                            }
+                        }
+                        else {
+                            for (let j = 0; j < listBoat[typeBoat].size; ++j) {
+                                table.push(index + j * 10);
+                            }
+                        }
+                        setTypeExiste([...typeExiste, typeBoat]);
+                        setSeleted([...selected, table]); // Replace the single numbers to array of numbers.
+                        // To informing the user that this boat is been placed
+                        Swal.fire({
+                            position: 'top-end',
+                            title: 'Lovely!',
+                            text: 'You have one more boat now!',
+                            icon: 'success',
+                            showConfirmButton: false,
+                        });
+                    }
+
                 }
-            }
-            setTypeExiste([...typeExiste, typeBoat]);
-            setSeleted([...selected, table]); // Replace the single numbers to array of numbers.
-            // To informing the user that this boat is been placed
-            Swal.fire({
-                position: 'top-end',
-                title: 'Lovely!',
-                text: 'You have one more boat now!',
-                icon: 'success',
-                showConfirmButton: false,
-            });
+
+
+                )
+                .catch((error) => {
+                    alert(error.message);
+                });
         }
-        // TEST TEST ***************************************** TEST PART
+
+
     }
 
 

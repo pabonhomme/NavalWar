@@ -26,30 +26,95 @@ import Swal from "sweetalert2";
 
 export default function Battle() {
 
-    const storedUser1 = sessionStorage.getItem('user1');
-    const storedUser2 = sessionStorage.getItem('user2');
+    const [game, setGame] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [visited, setVisited] = useState([]);
+    const [haveBoat, setHaveBoat] = useState([]);
+    const [nbRound, setNbRound] = useState(0);
 
-    const [visited, setVisited] = useState('');
-    const [haveBoat, setHaveBoat] = useState('');
-    const [user, setUser] = useState('');
 
-    // Set the first player
     useEffect(() => {
-        if (storedUser1 != null && storedUser2 != null) {
-            setUser(storedUser1);
-        }
+        fetch(`http://localhost:5199/api/Game/`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((response) => {
+            return response.json();
+        })
+            .then((gameData) => {
+                setGame(gameData);
+            })
     }, [])
 
+    useEffect(() => {
+        if (game != null) {
+            setLoading(false);
+            refreshData();
+            if (nbRound != 0) {
+                fetch('http://localhost:5199/api/Game/isGameFinished', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then((response) => response.json())
+                    .then((isFinished) => {
+                        if (isFinished === true) {
+                            someoneWin();
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
 
-    function splitDigits(num) {
-        const tens = Math.floor(num / 10);
-        const ones = num % 10;
-        return [tens, ones];
+            }
+        }
+        console.log(game)
+    }, [game])
+
+    function refreshData() {
+        const tableVisited = [];
+        const tableBoat = [];
+
+        if (game.currentPlayer === game.p2.id) {
+            // for VISITED
+            const visitedItems = game.p1.board.grid.filter((gridItem) => gridItem.isVisited);
+            const visitedItemsPositions = visitedItems.map((visitedItem) => visitedItem.positions);
+            visitedItemsPositions.map((position) => {
+                tableVisited.push((position.item1 + 1) * 10 + (position.item2 + 1));
+            });
+
+            // for SHIP
+            const shipItems = game.p1.board.grid.filter((gridItem) => gridItem.ship);
+            const shipItemsPositions = shipItems.map((shipItem) => shipItem.positions);
+            shipItemsPositions.map((position) => {
+                tableBoat.push((position.item1 + 1) * 10 + (position.item2 + 1));
+            });
+        }
+        if (game.currentPlayer === game.p1.id) {
+            // for VISITED
+            const visitedItems = game.p2.board.grid.filter((gridItem) => gridItem.isVisited);
+            const visitedItemsPositions = visitedItems.map((visitedItem) => visitedItem.positions);
+            visitedItemsPositions.map((position) => {
+                tableVisited.push((position.item1 + 1) * 10 + (position.item2 + 1));
+            });
+
+            // for SHIP
+            const shipItems = game.p2.board.grid.filter((gridItem) => gridItem.ship);
+            const shipItemsPositions = shipItems.map((shipItem) => shipItem.positions);
+            shipItemsPositions.map((position) => {
+                tableBoat.push((position.item1 + 1) * 10 + (position.item2 + 1));
+            });
+        }
+        setVisited(tableVisited);
+        setHaveBoat(tableBoat);
     }
 
-    const handleClick = (index) => {
+    const handleClick = (index, e) => {
+        e.preventDefault();
         var [x, y] = splitDigits(index);
-        fetch('http://localhost:5199/api/Game/shot/${x}/${y}', {
+        fetch(`http://localhost:5199/api/Game/shoot/${x - 1}/${y - 1}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -63,69 +128,53 @@ export default function Battle() {
                         icon: 'error',
                         confirmButtonText: 'Fine'
                     });
+                    throw new Error("Error 404");
                 }
                 else {
-                    tableVisited = [];
-                    tableBoat = [];
-
-                    if (user == storedUser2) {
-                        // for VISITED
-                        const visitedItems = response.p1.board.grid.filter((gridItem) => gridItem.isVisited);
-                        const visitedItemsPositions = visitedItems.map((visitedItem) => visitedItem.positions);
-                        visitedItemsPositions.map((position) => {
-                            tableVisited.push(position.item1 * 10 + position.item2);
-                        });
-                        // for SHIP
-                        const shipItems = response.p1.board.grid.filter((gridItem) => gridItem.ship);
-                        const shipItemsPositions = shipItems.map((shipItem) => shipItem.positions);
-                        shipItemsPositions.map((position) => {
-                            tableBoat.push(position.item1 * 10 + position.item2);
-                        });
-                    }
-                    if (user == storedUser1) {
-                        // for VISITED
-                        const visitedItems = response.p2.board.grid.filter((gridItem) => gridItem.isVisited);
-                        const visitedItemsPositions = visitedItems.map((visitedItem) => visitedItem.positions);
-                        visitedItemsPositions.map((position) => {
-                            tableVisited.push(position.item1 * 10 + position.item2);
-                        });
-                        // for SHIP
-                        const shipItems = response.p2.board.grid.filter((gridItem) => gridItem.ship);
-                        const shipItemsPositions = shipItems.map((shipItem) => shipItem.positions);
-                        shipItemsPositions.map((position) => {
-                            tableBoat.push(position.item1 * 10 + position.item2);
-                        });
-                    }
-                    setVisited(tableVisited);
-                    setHaveBoat(tableBoat);
-
-                    // To get the turn 
-                    if (!tableVisited.indexOf(index) || !tableBoat.indexOf(index)) {
-                        setTimeout(() => {
-                            changerUser();
-                        }, 2000);
-                    }
-                    else {
-                        fetch('http://localhost:5199/api/Game/isGameFinished', {
-                            method: 'GET',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            }
-                        })
-                        .then((response) => {
-                            if (response==true) {
-                                someoneWin();
-                            }
-                        })
-                    }
+                    return response.json();
                 }
             })
+            .then((response) => {
+                //setVisited([...visited, index]);
+                //refreshMap(response);
+                // console.log("VISITED ", visited);
+                setGame(response);
+                setNbRound(1);
+
+                setTimeout(() => {
+                    changerUser();
+                }, 1000);
+
+                // To get the turn 
+            }).catch((error) => {
+                console.log(error.message);
+            });
     }
 
-    const changerUser = () => {
-        if (user == storedUser1) { setUser(storedUser2); }
-        if (user == storedUser2) { setUser(storedUser1); }
+    function changerUser() {
+        fetch('http://localhost:5199/api/Game/changeTurn', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((response) => {
+            return response.json();
+
+        })
+            .then((response) => {
+                setGame(response);
+                // To get the turn 
+            }).catch((error) => {
+                console.log(error.message);
+            });
     };
+
+
+    function splitDigits(num) {
+        const y = num % 10;
+        const x = (num - y) / 10;
+        return [x, y]
+    }
 
     const someoneWin = () => {
         Swal.fire({
@@ -143,21 +192,27 @@ export default function Battle() {
         })
     }
 
-    const setIsVisited = (index) => {
+    /* const setIsVisited = (index) => {
         for (let i = 0; i < visited.length; i++) {
-            if (isVisited[i].indexOf(index) != -1) {
+            if (visited[i].includes(index) != -1) {
                 return true;
             }
+            return visited[i].includes(index);
         }
-        return false;
+    } */
+    const setIsVisited = (index) => {
+        return visited.includes(index);
     }
-    const setIsBoat = (index) => {
+    /* const setIsBoat = (index) => {
         for (let i = 0; i < haveBoat.length; i++) {
             if (haveBoat[i].indexOf(index) != -1) {
                 return true;
             }
         }
         return false;
+    } */
+    const setIsBoat = (index) => {
+        return haveBoat.includes(index);
     }
 
 
@@ -200,7 +255,7 @@ export default function Battle() {
                 row.push(
                     <td
                         key={index}
-                        onClick={() => handleClick(index)}
+                        onClick={(e) => handleClick(index, e)}
                         style={{
                             // If haven't been visited, always transparent
                             // Then, do have boat -> RED
@@ -219,16 +274,27 @@ export default function Battle() {
         table.push(<tr key={i}>{row}</tr>)
     }
 
+    if (loading) {
+        return (
+            <>
+                <div className={styles.mainmanu}>
+                    <h1 className="text-left">Naval War Gaming</h1>
+
+                </div>
+            </>
+        )
+    }
+
     return (
         <div className={styles.mainmanu}>
             <h1 className="text-left">Naval War Gaming</h1>
-            <h2 className="text-center">It's your turn, {user}</h2>
+            <h2 className="text-center">It's your turn, {game.currentPlayer == 1 ? game.p1.pseudo : game.p2.pseudo}</h2>
             <table
                 className="col-sm-9"
-                key={user}
+                key={game.currentPlayer}
                 style={{ borderCollapse: 'collapse' }}
             >
-                <tbody key={user}>{table}</tbody>
+                <tbody key={game.currentPlayer == 1 ? game.p1 : game.p2}>{table}</tbody>
             </table>
         </div>
     );
