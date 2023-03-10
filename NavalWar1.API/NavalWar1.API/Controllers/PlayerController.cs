@@ -17,6 +17,10 @@ namespace NavalWar.API.Controllers
 
 
         #region GET
+        /// <summary>
+        /// Get a list of all players
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("")]
         public IEnumerable<PlayerDTO> Get()
@@ -26,6 +30,11 @@ namespace NavalWar.API.Controllers
 
         }
 
+        /// <summary>
+        /// Get a player by its id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("{id}")]
         public PlayerDTO Get(int id)
@@ -36,6 +45,11 @@ namespace NavalWar.API.Controllers
         #endregion
 
         #region POST
+        /// <summary>
+        /// Add a player to the database
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("")]
         public bool Add(PlayerDTO player)
@@ -46,6 +60,11 @@ namespace NavalWar.API.Controllers
         #endregion
 
         #region PUT
+        /// <summary>
+        /// Update a player in the database
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
         [HttpPut]
         [Route("")]
         public bool Update(PlayerDTO player)
@@ -56,6 +75,11 @@ namespace NavalWar.API.Controllers
         #endregion
 
         #region DELETE
+        /// <summary>
+        /// Delete a player in the database
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete]
         [Route("{id}")]
         public ActionResult Delete(int id)

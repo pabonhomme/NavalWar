@@ -121,6 +121,11 @@ namespace NavalWar.DTO
             }
         }
 
+        /// <summary>
+        /// Put a boat on the board and verify that is is possible
+        /// </summary>
+        /// <param name="ship"></param>
+        /// <returns></returns>
         public bool PutBoat(ShipDTO ship)
         {
             if(IsFree(ship.Positions.Item1, ship.Positions.Item2, ship.Orientation, ship.Size)) // Verify if it is free for the boat

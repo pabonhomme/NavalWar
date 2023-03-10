@@ -10,6 +10,11 @@ namespace NavalWar.DAL.Extensions
 {
     public static class GameExtension
     {
+        /// <summary>
+        /// change a GameDTo to a Game
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         public static Game ToEntity(this GameDTO dto)
         {
             if (dto is null)
@@ -28,6 +33,11 @@ namespace NavalWar.DAL.Extensions
             };
         }
 
+        /// <summary>
+        /// Change a Game to a GameDTO
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
         public static GameDTO ToDTO(this Game entity)
         {
             if (entity is null)

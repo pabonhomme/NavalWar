@@ -11,7 +11,9 @@ namespace NavalWar.API.Controllers
     [Route("api/[controller]")]
     public class GameController : Controller
     {
-
+        /// <summary>
+        /// game service
+        /// </summary>
         private IGameService _gameService;
         public GameController(IGameService gameService)
         {
@@ -19,6 +21,10 @@ namespace NavalWar.API.Controllers
         }
 
         #region GET
+        /// <summary>
+        /// Get a game
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("")]
         public GameDTO Get()
@@ -27,6 +33,10 @@ namespace NavalWar.API.Controllers
 
         }
 
+        /// <summary>
+        /// Return if the game is finished
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("isGameFinished")]
         public bool isGamefinished()
@@ -37,6 +47,12 @@ namespace NavalWar.API.Controllers
         #endregion
 
         #region POST
+        /// <summary>
+        /// Start the game
+        /// </summary>
+        /// <param name="pseudo1"></param>
+        /// <param name="pseudo2"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("start/{pseudo1}/{pseudo2}")]
         public bool StartGame(string pseudo1, string pseudo2)
@@ -45,6 +61,12 @@ namespace NavalWar.API.Controllers
             return state;
         }
 
+        /// <summary>
+        /// shoot a missile on a cell
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="column"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("shoot/{row}/{column}")]
         public ActionResult Shoot(int row, int column)
@@ -58,6 +80,10 @@ namespace NavalWar.API.Controllers
             return Ok(game);
         }
 
+        /// <summary>
+        /// Change the current player
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         [Route("changeTurn")]
         public ActionResult ChangeTurn()
@@ -67,6 +93,14 @@ namespace NavalWar.API.Controllers
             return Ok(game);
         }
 
+        /// <summary>
+        /// Put a boat on the board of the current player
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="column"></param>
+        /// <param name="orientation"></param>
+        /// <param name="size"></param>
+        /// <returns>Ok if the boat has been placed</returns>
         [HttpPost]
         [Route("putBoat/{row}/{column}/{orientation}/{size}")]
         public ActionResult PutBoat(int row, int column, OrientationDTO orientation, int size)
@@ -82,6 +116,10 @@ namespace NavalWar.API.Controllers
         #endregion
 
         #region DELETE
+        /// <summary>
+        /// Delete a game
+        /// </summary>
+        /// <returns></returns>
         [HttpDelete]
         [Route("")]
         public ActionResult Delete()

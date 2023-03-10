@@ -24,6 +24,10 @@ namespace NavalWar.BL
         }
 
         #region GET
+        /// <summary>
+        /// Get a game
+        /// </summary>
+        /// <returns></returns>
         public GameDTO Get()
         {
             GameDTO game = _gameRepository.Get(0);
@@ -32,12 +36,22 @@ namespace NavalWar.BL
         #endregion
 
         #region POST
-
+        /// <summary>
+        /// Add a game to the database
+        /// </summary>
+        /// <param name="game"></param>
+        /// <returns></returns>
         public bool Add(GameDTO game)
         {
             return _gameRepository.Add(game);
         }
 
+        /// <summary>
+        /// start the game by creating a game and the players
+        /// </summary>
+        /// <param name="pseudo1"></param>
+        /// <param name="pseudo2"></param>
+        /// <returns></returns>
         public bool StartGame(string pseudo1, string pseudo2)
         {
             try
@@ -63,6 +77,11 @@ namespace NavalWar.BL
         #endregion
 
         #region PUT
+        /// <summary>
+        /// update a game in the database
+        /// </summary>
+        /// <param name="game"></param>
+        /// <returns></returns>
         public bool Update(GameDTO game)
         {
             var state = _gameRepository.Update(game);
@@ -71,13 +90,21 @@ namespace NavalWar.BL
         #endregion
 
         #region DELETE
-
+        /// <summary>
+        /// Delete a game in the database
+        /// </summary>
+        /// <param name="game"></param>
+        /// <returns></returns>
         public bool Remove(GameDTO game)
         {
             return _gameRepository.Remove(game);
         }
         #endregion
-
+        /// <summary>
+        /// Put a boat for the current player
+        /// </summary>
+        /// <param name="ship"></param>
+        /// <returns></returns>
         public GameDTO PutBoat(ShipDTO ship)
         {
             GameDTO game = Get();
@@ -101,6 +128,12 @@ namespace NavalWar.BL
             return null;
         }
 
+        /// <summary>
+        /// Shoot a boat on a opposite player of the current player
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="column"></param>
+        /// <returns></returns>
         public GameDTO Shoot(int row, int column)
         {
             GameDTO game = Get();
@@ -131,6 +164,11 @@ namespace NavalWar.BL
             return null;
         }
 
+        /// <summary>
+        /// change the current player
+        /// </summary>
+        /// <param name="game"></param>
+        /// <returns></returns>
         public GameDTO ChangeTurn(GameDTO game)
         {
             game = ChangePlayer(game);
@@ -140,6 +178,11 @@ namespace NavalWar.BL
             return game;
         }
 
+        /// <summary>
+        /// Change the player
+        /// </summary>
+        /// <param name="game"></param>
+        /// <returns></returns>
         public GameDTO ChangePlayer(GameDTO game)
         {
             if(game.currentPlayer == game.p1.Id)
@@ -153,6 +196,11 @@ namespace NavalWar.BL
             return game;
         }
 
+        /// <summary>
+        /// Save the game in the database
+        /// </summary>
+        /// <param name="game"></param>
+        /// <returns></returns>
         public bool SaveGame(GameDTO game)
         {
             try
@@ -169,6 +217,10 @@ namespace NavalWar.BL
             return false;
         }
 
+        /// <summary>
+        /// Tell if the game is finished by looking if a board is sunk
+        /// </summary>
+        /// <returns></returns>
         public bool isGameFinished()
         {
             GameDTO game = Get();

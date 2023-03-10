@@ -11,10 +11,6 @@ namespace NavalWar.DTO
     {
         public int Id { get; set; }
 
-        //public PlayerDTO winner { get; set; }
-
-        //public PlayerDTO loser { get; set; }
-
         public PlayerDTO p1 { get; set; }
 
         public PlayerDTO p2 { get; set; }
@@ -30,26 +26,6 @@ namespace NavalWar.DTO
         public GameDTO(PlayerDTO winner, PlayerDTO loser)
         {
             Id = 0;
-            //this.winner = winner;
-            //this.loser = loser;
         }
-
-        //public void updateScore()
-        //{
-        //    foreach(ShipDTO ship in winner.OppositeBoard.Ships)
-        //    {
-        //        if (ship.isSunk())
-        //        {
-        //            winner.incrementScore();
-        //        }
-        //    }
-        //    foreach (ShipDTO ship in loser.OppositeBoard.Ships)
-        //    {
-        //        if (ship.isSunk())
-        //        {
-        //            loser.incrementScore();
-        //        }
-        //    }
-        //}
     }
 }
