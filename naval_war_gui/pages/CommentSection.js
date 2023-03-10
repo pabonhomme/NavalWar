@@ -24,8 +24,6 @@ import Link from 'next/link';
 import styles from '../styles/Home.module.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import Image from 'next/image'
-import ImgUser from '../public/CommentImg.jpg'
-
 
 
 
@@ -50,7 +48,7 @@ const CommentBoard = () => {
           <div key={index} className="col-12 mb-2">
             <div className="media bg-light rounded p-3">
               <span className="media-body" style={{ display: 'inline-flex', alignItems: 'center' }}>
-                <Image src={ImgUser} className="mr-3 rounded-circle inline-block" alt="User" />
+                <Image src='/commentImg.jpg' width={50} height={50} className="mr-3 rounded-circle inline-block" alt="User" />
                 <p>{comment}</p>
               </span>
             </div>
@@ -60,7 +58,7 @@ const CommentBoard = () => {
       <div className="row">
         <form className="col-12" onSubmit={handleCommentSubmit}>
           <div className="input-group mb-3">
-            <Image src={ImgUser} className="mr-3 rounded-circle inline-block" alt="User" />
+            <Image src='/commentImg.jpg' width={50} height={50} className="mr-3 rounded-circle inline-block" alt="User" />
             <textarea
               className="form-control"
               value={newComment}

@@ -17,7 +17,7 @@ namespace NavalWar.DTO
         public static readonly int BoardSize = 10;
 
         [NonSerialized]
-        public static readonly List<int> SizeShips = new List<int> { 2 };
+        public static readonly List<int> SizeShips = new List<int> { 5, 4, 3, 3, 2 };
 
         [NonSerialized]
         public static readonly int Nb_Boat = SizeShips.Count();
